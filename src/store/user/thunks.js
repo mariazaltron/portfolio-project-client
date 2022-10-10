@@ -1,18 +1,16 @@
 import { apiUrl } from "../../config/constants";
+import { movieDbApiUrl, movieDbApiKey } from "../../config/constants";
 import axios from "axios";
 import { selectToken } from "./selectors";
 import { appLoading, appDoneLoading, setMessage } from "../appState/slice";
 import { showMessageWithTimeout } from "../appState/thunks";
-import {
-  loginSuccess,
-  logOut,
-  tokenStillValid,
-} from "./slice";
+import { loginSuccess, logOut, tokenStillValid } from "./slice";
 
 export const signUp = (name, email, password) => {
   return async (dispatch, getState) => {
     dispatch(appLoading());
     try {
+    //   axios.get(`${movieDbApiUrl}/tv/latest?api_key=${movieDbApiKey}`);
       const response = await axios.post(`${apiUrl}/auth/signup`, {
         name,
         email,
