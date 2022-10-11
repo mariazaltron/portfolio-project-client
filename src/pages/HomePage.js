@@ -1,5 +1,6 @@
 
 import { PopularSeries } from "../components/PopularSeries/PopularSeries";
+import { TrendingSeries } from "../components/TrendingSeries/TrendingSeries";
 import { NavBar } from "../components/NavBar";
 
 export const HomePage = () => {
@@ -7,6 +8,7 @@ export const HomePage = () => {
     <div>
     <NavBar/>
       <PopularSeries/>
+      <TrendingSeries/>
     </div>
   );
 }

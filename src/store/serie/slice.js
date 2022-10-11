@@ -4,6 +4,7 @@ const initialState = {
   series: [],
   serieDetails: {},
   popularSeries: [],
+  trendingSeries: [],
 };
 
 export const serieSlice = createSlice({
@@ -24,9 +25,20 @@ export const serieSlice = createSlice({
     seriesByPopular: (state, action) => {
       state.loading = false;
       state.popularSeries = action.payload;
+    },
+    seriesByTrending: (state, action) => {
+      state.loading = false;
+      state.trendingSeries = action.payload;
     }
+
   },
 });
 
-export const { allSeries, startLoading, serieById, seriesByPopular } = serieSlice.actions;
+export const {
+  allSeries,
+  startLoading,
+  serieById,
+  seriesByPopular,
+  seriesByTrending,
+} = serieSlice.actions;
 export default serieSlice.reducer;

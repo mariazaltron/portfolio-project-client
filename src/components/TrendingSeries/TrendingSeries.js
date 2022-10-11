@@ -1,30 +1,30 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPopularSeries } from "../../store/serie/thunks";
-import { selectPopularSeries } from "../../store/serie/selectors";
+import { fetchTrendingSeries } from "../../store/serie/thunks";
+import { selectTrendingSeries} from "../../store/serie/selectors";
 import { selectAppLoading } from "../../store/appState/selectors";
 import { movieDbImgUrl } from "../../config/constants.js";
 import Carousel from "react-bootstrap/Carousel";
 import { Button } from "react-bootstrap"
 import "./index.css";
 
-export const PopularSeries = () => {
+export const TrendingSeries = () => {
   const dispatch = useDispatch();
   const loading = useSelector(selectAppLoading);
-  const popularSeries = useSelector(selectPopularSeries);
+  const trendingSerie = useSelector(selectTrendingSeries);
 
-  // console.log("oie",popularSeries);
+  // console.log("oieeeee", trendingSerie);
 
   useEffect(() => {
-    dispatch(fetchPopularSeries());
+    dispatch(fetchTrendingSeries());
   }, []);
 
   return (
     <div>
-      <h1>Popular TV Shows</h1>
+      <h1>Trending TV Shows</h1>
       <div className="cardSeries">
         <Carousel fade="true">
-          {popularSeries.map((serie) => (
+          {trendingSerie.map((serie) => (
             <Carousel.Item key={serie.id}>
               <img
                 src={movieDbImgUrl + serie.backdrop_path}

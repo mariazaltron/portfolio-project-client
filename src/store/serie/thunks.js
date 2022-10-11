@@ -1,5 +1,11 @@
 import axios from "axios";
-import { allSeries, startLoading, serieById, seriesByPopular } from "./slice";
+import {
+  allSeries,
+  startLoading,
+  serieById,
+  seriesByPopular,
+  seriesByTrending,
+} from "./slice";
 import { movieDbApiKey, movieDbApiUrl, apiUrl } from "../../config/constants";
 
 export const fetchSeries = () => async (dispatch, getState) => {
@@ -39,3 +45,19 @@ export const fetchPopularSeries = () => async (dispatch, getState) => {
     console.log(e.message);
   }
 };
+
+export const fetchTrendingSeries = () => async (dispatch, getState) => {
+  try {
+    dispatch(startLoading());
+    const response = await axios.get(`${movieDbApiUrl}/trending/tv/week`, {
+      params: { api_key: movieDbApiKey },
+    });
+    const trendingSeries = response.data;
+    console.log(trendingSeries);
+    dispatch(seriesByTrending(trendingSeries.results));
+  } catch (e) {
+    console.log(e.message);
+  }
+};
+
+
