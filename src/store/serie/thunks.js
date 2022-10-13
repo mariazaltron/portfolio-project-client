@@ -5,6 +5,7 @@ import {
   serieById,
   seriesByPopular,
   seriesByTrending,
+  serieByName,
 } from "./slice";
 import { movieDbApiKey, movieDbApiUrl, apiUrl } from "../../config/constants";
 
@@ -55,6 +56,20 @@ export const fetchTrendingSeries = () => async (dispatch, getState) => {
     const trendingSeries = response.data;
     console.log(trendingSeries);
     dispatch(seriesByTrending(trendingSeries.results));
+  } catch (e) {
+    console.log(e.message);
+  }
+};
+
+export const fetchSerieByName = (name) => async (dispatch, getState) => {
+  try {
+    dispatch(startLoading());
+    const response = await axios.get(`${movieDbApiUrl}/search/tv`, {
+      params: { api_key: movieDbApiKey, query: name },
+    });
+    const serieName = response.data;
+    console.log("oie", serieName);
+    dispatch(serieByName(serieName.results));
   } catch (e) {
     console.log(e.message);
   }

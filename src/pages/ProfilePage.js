@@ -1,10 +1,10 @@
-import { NavBar } from "../components/NavBar";
+
 import { NavProfilePage } from "../components/NavProfilePage"
 
-export const MyProfilePage = () => {
+export const ProfilePage = () => {
   return (
     <div>
-        <NavBar/>
+    
         <div style={{"display": "flex"}}>
             <NavProfilePage/>
             <div>

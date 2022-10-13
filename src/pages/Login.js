@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { login } from "../store/user/thunks";
 import { selectToken } from "../store/user/selectors";
-import { NavBar } from "../components/NavBar";
+
 
 export const Login = () => {
   const [email, setEmail] = useState("");
@@ -28,7 +28,6 @@ export const Login = () => {
 
   return (
     <div>
-      <NavBar />
       <div style={{ textAlign: "center" }}>
         <h1>Login</h1>
         <form onSubmit={submitForm}>

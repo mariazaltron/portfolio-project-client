@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { signUp } from "../store/user/thunks";
 import { selectToken } from "../store/user/selectors";
-import { NavBar } from "../components/NavBar";
 
 
 export const SignUp = () => {
@@ -30,7 +29,6 @@ export const SignUp = () => {
 
   return (
     <div>
-      <NavBar/>
       <div style={{ textAlign: "center" }}>
         <h1>Sign Up</h1>
         <form onSubmit={submitForm}>

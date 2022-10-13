@@ -1,5 +1,4 @@
 import { apiUrl } from "../../config/constants";
-import { movieDbApiUrl, movieDbApiKey } from "../../config/constants";
 import axios from "axios";
 import { selectToken } from "./selectors";
 import { appLoading, appDoneLoading, setMessage } from "../appState/slice";
@@ -10,7 +9,6 @@ export const signUp = (name, email, password) => {
   return async (dispatch, getState) => {
     dispatch(appLoading());
     try {
-    //   axios.get(`${movieDbApiUrl}/tv/latest?api_key=${movieDbApiKey}`);
       const response = await axios.post(`${apiUrl}/auth/signup`, {
         name,
         email,
@@ -21,7 +19,7 @@ export const signUp = (name, email, password) => {
         loginSuccess({
           token: response.data.token,
           user: response.data.user,
-          space: response.data.space,
+          // space: response.data.space,
         })
       );
       dispatch(showMessageWithTimeout("success", true, "account created"));
@@ -64,7 +62,7 @@ export const login = (email, password) => {
         loginSuccess({
           token: response.data.token,
           user: response.data.user,
-          space: response.data.space,
+          // space: response.data.space,
         })
       );
       dispatch(showMessageWithTimeout("success", false, "welcome back!", 1500));
@@ -89,6 +87,41 @@ export const login = (email, password) => {
           })
         );
       }
+      dispatch(appDoneLoading());
+    }
+  };
+};
+
+export const getUserWithStoredToken = () => {
+  return async (dispatch, getState) => {
+    // get token from the state
+    const token = selectToken(getState());
+
+    // if we have no token, stop
+    if (token === null) return;
+
+    dispatch(appLoading());
+    try {
+      // if we do have a token,
+      // check wether it is still valid or if it is expired
+      const response = await axios.get(`${apiUrl}/auth/mylists`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      // token is still valid
+      dispatch(
+        tokenStillValid({
+          user: response.data.user,
+          serie: response.data.serie,
+        })
+      );
+      dispatch(appDoneLoading());
+    } catch (error) {
+      // console.log(error.response.message);
+
+      // if we get a 4xx or 5xx response,
+      // get rid of the token by logging out
+      dispatch(logOut());
       dispatch(appDoneLoading());
     }
   };

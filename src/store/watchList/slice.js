@@ -5,24 +5,10 @@ const initialState = {
   profile: null,
 };
 
-export const userSlice = createSlice({
-  name: "user",
+export const watchListSlice = createSlice({
+  name: "watchList",
   initialState,
   reducers: {
-    loginSuccess: (state, action) => {
-      localStorage.setItem("token", action.payload.token);
-      state.token = action.payload.token;
-      state.profile = action.payload.user;
-    },
-    logOut: (state, action) => {
-      localStorage.removeItem("token");
-      state.token = null;
-      state.profile = null;
-    },
-    tokenStillValid: (state, action) => {
-      state.profile = action.payload.user;
-      state.serie = action.payload.serie;
-    },
     // storyDeleteSuccess: (state, action) => {
     //   const storyId = action.payload;
     //   state.space.stories = state.space.stories.filter((s) => s.id !== storyId);
@@ -37,6 +23,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { loginSuccess, logOut, tokenStillValid } = userSlice.actions;
+export const { l } = watchListSlice.actions;
 
-export default userSlice.reducer;
+export default watchListSlice.reducer;
