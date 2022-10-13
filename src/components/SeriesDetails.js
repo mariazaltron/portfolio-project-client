@@ -19,11 +19,10 @@ export const SeriesDetails = () => {
       <div>
         <h2>{serie.name}</h2>
         <p>{serie.genres}</p>
-        <p>{serie.number_of_seasons}</p>
+        <p>Seasons: {serie.number_of_seasons}</p>
         <img src={serie.poster_path} alt="" width="200px" height="300px" />
         <p>{serie.overview}</p>
-        <p>{serie.networks}</p>
-        <p>{serie.vote_average}</p>
+        <p>Rate: {serie.vote_average}</p>
       </div>
     </div>
   );

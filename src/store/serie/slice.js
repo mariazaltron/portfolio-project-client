@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   series: [],
-  serieDetails: {},
+  serieDetails: null,
   popularSeries: [],
   trendingSeries: [],
   searchSeries: [],
@@ -25,6 +25,7 @@ export const serieSlice = createSlice({
     },
     serieByName: (state, action) => {
       state.loading = false;
+      console.log(`search `, action.payload);
       state.searchSeries = action.payload;
     },
     seriesByPopular: (state, action) => {
@@ -34,8 +35,11 @@ export const serieSlice = createSlice({
     seriesByTrending: (state, action) => {
       state.loading = false;
       state.trendingSeries = action.payload;
-    }
-
+    },
+    clearSerieById: (state, action) => {
+      state.loading = false;
+      state.serieDetails = null;
+    },
   },
 });
 
@@ -46,5 +50,6 @@ export const {
   seriesByPopular,
   seriesByTrending,
   serieByName,
+  clearSerieById,
 } = serieSlice.actions;
 export default serieSlice.reducer;

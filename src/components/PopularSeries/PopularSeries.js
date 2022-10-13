@@ -1,23 +1,34 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPopularSeries } from "../../store/serie/thunks";
-import { selectPopularSeries } from "../../store/serie/selectors";
-import { selectAppLoading } from "../../store/appState/selectors";
+import { fetchPopularSeries, saveSerie } from "../../store/serie/thunks";
+import {
+  selectPopularSeries,
+  selectSerieById,
+} from "../../store/serie/selectors";
 import { movieDbImgUrl } from "../../config/constants.js";
 import Carousel from "react-bootstrap/Carousel";
-import { Button } from "react-bootstrap"
+import { Button } from "react-bootstrap";
 import "./index.css";
+import { useNavigate } from "react-router-dom";
 
 export const PopularSeries = () => {
   const dispatch = useDispatch();
-  const loading = useSelector(selectAppLoading);
-  const popularSeries = useSelector(selectPopularSeries);
+  const navigate = useNavigate();
+  const serieDetails = useSelector(selectSerieById);
 
+  const popularSeries = useSelector(selectPopularSeries);
   // console.log("oie",popularSeries);
 
+  const viewMore = (result) => {
+    dispatch(saveSerie(result));
+  };
+
   useEffect(() => {
+    if (serieDetails !== null) {
+      navigate(`/series/${serieDetails.id}`);
+    }
     dispatch(fetchPopularSeries());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div>
@@ -32,7 +43,8 @@ export const PopularSeries = () => {
                 height="300px"
               />
               <Carousel.Caption>
-                <h4>{serie.name}</h4> <Button>More</Button>
+                <h4>{serie.name}</h4>{" "}
+                <Button onClick={() => viewMore(serie)}>More</Button>
               </Carousel.Caption>
             </Carousel.Item>
           ))}

@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { selectToken } from "../store/user/selectors";
 import { logOut } from "../store/user/slice";
+import { clearSerieById } from "../store/serie/slice";
 import { fetchSerieByName } from "../store/serie/thunks";
 
 export const NavBar = () => {
@@ -23,15 +24,16 @@ export const NavBar = () => {
 
   const onChangeSearch = (event) => {
     event.preventDefault();
-    setSearchTerm(event.target.value)
-  }
+    setSearchTerm(event.target.value);
+  };
 
-  const submitSearch = (event) => {
+  const onSearch = (event) => {
     event.preventDefault();
     dispatch(fetchSerieByName(searchTerm));
+    dispatch(clearSerieById());
     navigate("/search");
-  }
-  
+  };
+
   return (
     <Navbar bg="light" expand="lg">
       <Container fluid>
@@ -65,11 +67,7 @@ export const NavBar = () => {
               aria-label="Search"
               onChange={onChangeSearch}
             />
-            <Button
-              variant="outline-success"
-              type="submit"
-              onClick={submitSearch}
-            >
+            <Button variant="outline-success" type="button" onClick={onSearch}>
               Search
             </Button>
           </Form>

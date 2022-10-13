@@ -1,23 +1,33 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchTrendingSeries } from "../../store/serie/thunks";
-import { selectTrendingSeries} from "../../store/serie/selectors";
-import { selectAppLoading } from "../../store/appState/selectors";
+import { fetchTrendingSeries, saveSerie } from "../../store/serie/thunks";
+import {
+  selectTrendingSeries,
+  selectSerieById,
+} from "../../store/serie/selectors";
 import { movieDbImgUrl } from "../../config/constants.js";
 import Carousel from "react-bootstrap/Carousel";
-import { Button } from "react-bootstrap"
+import { Button } from "react-bootstrap";
 import "./index.css";
+import { useNavigate } from "react-router-dom";
 
 export const TrendingSeries = () => {
   const dispatch = useDispatch();
-  const loading = useSelector(selectAppLoading);
+  const navigate = useNavigate();
+  const serieDetails = useSelector(selectSerieById);
   const trendingSerie = useSelector(selectTrendingSeries);
 
   // console.log("oieeeee", trendingSerie);
+  const viewMore = (result) => {
+    dispatch(saveSerie(result));
+  };
 
   useEffect(() => {
+    if (serieDetails !== null) {
+      navigate(`/series/${serieDetails.id}`);
+    }
     dispatch(fetchTrendingSeries());
-  }, []);
+  }, [dispatch, navigate, serieDetails]);
 
   return (
     <div>
@@ -32,7 +42,8 @@ export const TrendingSeries = () => {
                 height="300px"
               />
               <Carousel.Caption>
-                <h4>{serie.name}</h4> <Button>More</Button>
+                <h4>{serie.name}</h4>{" "}
+                <Button onClick={() => viewMore(serie)}>More</Button>
               </Carousel.Caption>
             </Carousel.Item>
           ))}
