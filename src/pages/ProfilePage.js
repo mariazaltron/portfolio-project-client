@@ -1,12 +1,11 @@
 
-import { NavProfilePage } from "../components/NavProfilePage"
 
 export const ProfilePage = () => {
   return (
     <div>
     
-        <div style={{"display": "flex"}}>
-            <NavProfilePage/>
+        <div>
+            
             <div>
             ola tudo bem
             </div>

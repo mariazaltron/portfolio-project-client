@@ -62,7 +62,7 @@ export const login = (email, password) => {
         loginSuccess({
           token: response.data.token,
           user: response.data.user,
-          // space: response.data.space,
+          sharedWatchList: response.data.sharedWatchList,
         })
       );
       dispatch(showMessageWithTimeout("success", false, "welcome back!", 1500));
@@ -107,12 +107,11 @@ export const getUserWithStoredToken = () => {
       const response = await axios.get(`${apiUrl}/auth/mylists`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-
       // token is still valid
       dispatch(
         tokenStillValid({
           user: response.data.user,
-          serie: response.data.serie,
+          sharedWatchList: response.data.sharedWatchList,
         })
       );
       dispatch(appDoneLoading());

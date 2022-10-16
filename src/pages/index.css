@@ -1,5 +1,22 @@
-/* HomePage css */
+/* HomePage CSS */
 
 .homepage-components {
    flex-direction:row,
 }
+
+
+
+
+/* MyList CSS */
+
+/* .container-mylist {
+   display: flex;
+   flex-direction: column;
+}
+
+.navBarLists {
+   background-color: brown;
+   max-width: 30%;
+} */
+
+

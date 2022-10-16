@@ -10,7 +10,7 @@ import { selectToken } from "../store/user/selectors";
 import { logOut } from "../store/user/slice";
 import { clearSerieById } from "../store/serie/slice";
 import { fetchSerieByName } from "../store/serie/thunks";
-
+import { NavLink } from "react-router-dom";
 export const NavBar = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useDispatch();
@@ -37,7 +37,7 @@ export const NavBar = () => {
   return (
     <Navbar bg="light" expand="lg">
       <Container fluid>
-        <Navbar.Brand href="/">WatchList</Navbar.Brand>
+        <Navbar.Brand>WatchList</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav
@@ -45,19 +45,15 @@ export const NavBar = () => {
             style={{ maxHeight: "100px" }}
             navbarScroll
           >
-            <Nav.Link href="/">Home</Nav.Link>
+            <NavLink to="/">Home</NavLink>
+            <NavLink to="/mylists">My Lists</NavLink>
             {token ? (
-              <div>
-                <Button onClick={clearUser}>Logout</Button>
-                <Nav.Link href="/mylists">My Lists</Nav.Link>
-              </div>
+              <Button onClick={clearUser}>Logout</Button>
             ) : (
-              <div>
-                <Nav.Link href="/signup">SignUp</Nav.Link>
-                <Nav.Link href="/login">Login</Nav.Link>
-              </div>
+              <NavLink to="/login">Login</NavLink>
             )}
           </Nav>
+
           <Form className="d-flex">
             <Form.Control
               value={searchTerm}
