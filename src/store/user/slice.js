@@ -29,16 +29,35 @@ export const userSlice = createSlice({
     //   const storyId = action.payload;
     //   state.space.stories = state.space.stories.filter((s) => s.id !== storyId);
     // },
-    // storyCreateSuccess: (state, action) => {
-    //   console.log(action.payload);
-    //   state.space.stories.unshift(action.payload);
-    // },
-    // spaceUpdated: (state, action) => {
-    //   state.space = { ...action.payload, stories: state.space.stories };
-    // },
+    serieAddedToMyList: (state, action) => {
+      console.log(action.payload);
+      state.sharedWatchList = action.payload;
+    },
+    statusUpdated: (state, action) => {
+      const newWatchListSerie = action.payload;
+      state.sharedWatchList.series.map((serie) => {
+        if (
+          serie.id === newWatchListSerie.serieId &&
+          serie.sharedWatchListSeries.sharedWatchListId ===
+            newWatchListSerie.sharedWatchListId
+        ) {
+          const newSerie = serie;
+          serie.sharedWatchListSeries = newWatchListSerie;
+          return newSerie;
+        } else {
+          return serie;
+        }
+      });
+    },
   },
 });
 
-export const { loginSuccess, logOut, tokenStillValid } = userSlice.actions;
+export const {
+  loginSuccess,
+  logOut,
+  tokenStillValid,
+  statusUpdated,
+  serieAddedToMyList,
+} = userSlice.actions;
 
 export default userSlice.reducer;

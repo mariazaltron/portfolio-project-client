@@ -19,15 +19,14 @@ export const TrendingSeries = () => {
 
   // console.log("oieeeee", trendingSerie);
   const viewMore = (result) => {
-    dispatch(saveSerie(result));
+    dispatch(saveSerie(result)).then(() => {
+      navigate(`/series/${serieDetails.id}`);
+    });
   };
 
   useEffect(() => {
-    if (serieDetails !== null) {
-      navigate(`/series/${serieDetails.id}`);
-    }
     dispatch(fetchTrendingSeries());
-  }, [dispatch, navigate, serieDetails]);
+  }, [dispatch]);
 
   return (
     <div>

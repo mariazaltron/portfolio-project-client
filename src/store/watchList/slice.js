@@ -17,12 +17,10 @@ export const watchListSlice = createSlice({
     //   console.log(action.payload);
     //   state.space.stories.unshift(action.payload);
     // },
-    // spaceUpdated: (state, action) => {
-    //   state.space = { ...action.payload, stories: state.space.stories };
-    // },
+    
   },
 });
 
-export const { l } = watchListSlice.actions;
+export const { statusUpdated } = watchListSlice.actions;
 
 export default watchListSlice.reducer;

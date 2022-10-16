@@ -46,9 +46,11 @@ export const NavBar = () => {
             navbarScroll
           >
             <NavLink to="/">Home</NavLink>
-            <NavLink to="/mylists">My Lists</NavLink>
             {token ? (
-              <Button onClick={clearUser}>Logout</Button>
+              <div>
+                <NavLink to="/mylists">My Lists</NavLink>
+                <Button onClick={clearUser}>Logout</Button>
+              </div>
             ) : (
               <NavLink to="/login">Login</NavLink>
             )}

@@ -20,13 +20,12 @@ export const PopularSeries = () => {
   // console.log("oie",popularSeries);
 
   const viewMore = (result) => {
-    dispatch(saveSerie(result));
+    dispatch(saveSerie(result)).then(() => {
+      navigate(`/series/${serieDetails.id}`);
+    });
   };
 
   useEffect(() => {
-    if (serieDetails !== null) {
-      navigate(`/series/${serieDetails.id}`);
-    }
     dispatch(fetchPopularSeries());
   }, [dispatch]);
 
