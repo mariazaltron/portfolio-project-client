@@ -4,6 +4,8 @@ const initialState = {
   token: localStorage.getItem("token"),
   profile: null,
   sharedWatchList: null,
+  filteredWatchList: null,
+  activeFilter: "all",
 };
 
 export const userSlice = createSlice({
@@ -15,6 +17,8 @@ export const userSlice = createSlice({
       state.token = action.payload.token;
       state.profile = action.payload.user;
       state.sharedWatchList = action.payload.sharedWatchList;
+      state.filteredWatchList = action.payload.sharedWatchList;
+      state.activeFilter = "all";
     },
     logOut: (state, action) => {
       localStorage.removeItem("token");
@@ -22,16 +26,20 @@ export const userSlice = createSlice({
       state.profile = null;
     },
     tokenStillValid: (state, action) => {
+      state.token = action.payload.token;
       state.profile = action.payload.user;
-      state.sharedWatchList = action.payload;
+      state.sharedWatchList = action.payload.sharedWatchList;
+      state.filteredWatchList = action.payload.sharedWatchList;
+      state.activeFilter = "all";
     },
     // storyDeleteSuccess: (state, action) => {
     //   const storyId = action.payload;
     //   state.space.stories = state.space.stories.filter((s) => s.id !== storyId);
     // },
     serieAddedToMyList: (state, action) => {
-      console.log(action.payload);
       state.sharedWatchList = action.payload;
+      state.filteredWatchList = action.payload;
+      state.activeFilter = "all";
     },
     statusUpdated: (state, action) => {
       const newWatchListSerie = action.payload;
@@ -48,6 +56,23 @@ export const userSlice = createSlice({
           return serie;
         }
       });
+      state.filteredWatchList = state.sharedWatchList;
+      state.activeFilter = "all";
+    },
+    filterMyList: (state, action) => {
+      const filter = action.payload;
+      if (filter === "all") {
+        state.activeFilter = "all";
+        state.filteredWatchList = state.sharedWatchList;
+      } else {
+        state.activeFilter = filter;
+        state.filteredWatchList.series = state.sharedWatchList.series.filter(
+          (serie) => serie.sharedWatchListSeries.status === filter
+        );
+      }
+    },
+    shareListMenuAction: (state, action) => {
+      state.activeFilter = "share";
     },
   },
 });
@@ -58,6 +83,8 @@ export const {
   tokenStillValid,
   statusUpdated,
   serieAddedToMyList,
+  filterMyList,
+  shareListMenuAction,
 } = userSlice.actions;
 
 export default userSlice.reducer;

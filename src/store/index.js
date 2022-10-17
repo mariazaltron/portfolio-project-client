@@ -4,6 +4,7 @@ import appStateReducer from "./appState/slice";
 import userReducer from "./user/slice";
 import serieReducer from "./serie/slice";
 import watchListReducer from "./watchList/slice";
+import profileReducer from "./profile/slice";
 
 export default configureStore({
   reducer: {
@@ -11,5 +12,6 @@ export default configureStore({
     user: userReducer,
     serie: serieReducer,
     watchList: watchListReducer,
+    profile: profileReducer,
   },
 });

@@ -1,26 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  token: localStorage.getItem("token"),
-  profile: null,
+  all: [],
+  sharedWithMe: [],
+  sharedWithOthers: [],
 };
 
 export const watchListSlice = createSlice({
   name: "watchList",
   initialState,
   reducers: {
-    // storyDeleteSuccess: (state, action) => {
-    //   const storyId = action.payload;
-    //   state.space.stories = state.space.stories.filter((s) => s.id !== storyId);
-    // },
-    // storyCreateSuccess: (state, action) => {
-    //   console.log(action.payload);
-    //   state.space.stories.unshift(action.payload);
-    // },
-    
+    allWatchlistsLoaded: (state, action) => {
+      state.sharedWithOthers = action.payload.withOthers;
+      console.log("shared with others", action.payload.withOthers);
+      state.sharedWithMe = action.payload.withMe;
+      console.log("shared with me", action.payload.withMe);
+    },
   },
 });
 
-export const { statusUpdated } = watchListSlice.actions;
+export const { allWatchlistsLoaded } = watchListSlice.actions;
 
 export default watchListSlice.reducer;

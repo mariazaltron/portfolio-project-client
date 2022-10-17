@@ -3,6 +3,7 @@ import axios from "axios";
 import { statusUpdated, serieAddedToMyList } from "../user/slice";
 import { appLoading, appDoneLoading } from "../appState/slice";
 import { showMessageWithTimeout } from "../appState/thunks";
+import { allWatchlistsLoaded } from "../watchList/slice";
 
 export const updateSerieStatus = (serieId, sharedWatchListId, status) => {
   return async (dispatch, getState) => {
@@ -61,7 +62,28 @@ export const addToWatchList = (sharedWatchListId, serieId, status) => {
           3000
         )
       );
-      dispatch(serieAddedToMyList(response.data.sharedWatchList));
+      dispatch(
+        serieAddedToMyList(response.data.userId, response.data.sharedWatchLists)
+      );
+      dispatch(appDoneLoading());
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+};
+
+export const getAllWatchlists = () => {
+  return async (dispatch, getState) => {
+    try {
+      const { token } = getState().user;
+      dispatch(appLoading());
+
+      const response = await axios.get(`${apiUrl}/watchlists`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      dispatch(allWatchlistsLoaded(response.data));
       dispatch(appDoneLoading());
     } catch (e) {
       console.log(e.message);

@@ -110,6 +110,7 @@ export const getUserWithStoredToken = () => {
       // token is still valid
       dispatch(
         tokenStillValid({
+          token: response.data.token,
           user: response.data.user,
           sharedWatchList: response.data.sharedWatchList,
         })

@@ -38,7 +38,7 @@ export const SeriesDetails = ({ serieId }) => {
         <Card.Body>
           {!serieWithWatchList && (
             <AddListButton
-              text="Add to list"
+              text="Add to my list"
               serieId={serie.id}
               sharedWatchListId={myList.id}
             ></AddListButton>
