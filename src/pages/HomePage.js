@@ -1,14 +1,13 @@
-
 import { PopularSeries } from "../components/PopularSeries/PopularSeries";
 import { TrendingSeries } from "../components/TrendingSeries/TrendingSeries";
 import "./index.css";
+import { Container } from "react-bootstrap";
 
 export const HomePage = () => {
   return (
-    <div className="homepage-components">
-        <PopularSeries />
-        <TrendingSeries /> 
-    </div>
+    <Container fluid className="homepage-components">
+      <PopularSeries />
+      <TrendingSeries />
+    </Container>
   );
-}
-
+};

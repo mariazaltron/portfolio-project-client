@@ -2,7 +2,7 @@ import { apiUrl } from "../../config/constants";
 import axios from "axios";
 import { selectToken } from "../user/selectors";
 import { allUsers } from "./slice";
-import { appLoading} from "../appState/slice";
+import { appLoading } from "../appState/slice";
 
 export const fetchProfiles = () => async (dispatch, getState) => {
   try {
@@ -15,7 +15,7 @@ export const fetchProfiles = () => async (dispatch, getState) => {
       },
     });
     const users = response.data;
-    console.log("oie do thunks", users)
+    console.log("oie do thunks", users);
     dispatch(allUsers(users));
   } catch (e) {
     console.log(e.message);

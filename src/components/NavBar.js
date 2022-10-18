@@ -45,14 +45,13 @@ export const NavBar = () => {
             style={{ maxHeight: "100px" }}
             navbarScroll
           >
-            <NavLink to="/">Home</NavLink>
-            {token ? (
-              <div>
-                <NavLink to="/mylists">My Lists</NavLink>
-                <Button onClick={clearUser}>Logout</Button>
-              </div>
-            ) : (
-              <NavLink to="/login">Login</NavLink>
+            <Nav.Link onClick={() => navigate("/")}>Home</Nav.Link>
+            {token && (
+              <Nav.Link onClick={() => navigate("/mylists")}>My Lists</Nav.Link>
+            )}
+            {token && <Nav.Link onClick={clearUser}>Logout</Nav.Link>}
+            {!token && (
+              <Nav.Link onClick={() => navigate("/login")}>Login</Nav.Link>
             )}
           </Nav>
 

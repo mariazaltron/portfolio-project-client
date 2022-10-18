@@ -1,4 +1,5 @@
 import { selectSearchSeries, selectSerieById } from "../store/serie/selectors";
+import { selectAppLoading } from "../store/appState/selectors";
 import { useSelector, useDispatch } from "react-redux";
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { movieDbImgUrl } from "../config/constants.js";
@@ -6,6 +7,7 @@ import { saveSerie } from "../store/serie/thunks";
 import { useNavigate } from "react-router-dom";
 
 export const SearchResults = () => {
+  const loading = useSelector(selectAppLoading);
   const results = useSelector(selectSearchSeries);
   const serieDetails = useSelector(selectSerieById);
   const dispatch = useDispatch();
@@ -16,7 +18,9 @@ export const SearchResults = () => {
     navigate(`/series/${serieDetails.id}`);
   };
 
-  return (
+  return loading ? (
+    <p>Loading...</p>
+  ) : (
     <div>
       <Row xs={1} md={5} className="g-4">
         {results.map((result) => (

@@ -3,7 +3,11 @@ import axios from "axios";
 import { statusUpdated, serieAddedToMyList, serieDeleted } from "../user/slice";
 import { appLoading, appDoneLoading } from "../appState/slice";
 import { showMessageWithTimeout } from "../appState/thunks";
-import { allWatchlistsLoaded } from "../watchList/slice";
+import {
+  allWatchlistsLoaded,
+  newListCreated,
+  watchListShared,
+} from "../watchList/slice";
 
 export const updateSerieStatus = (serieId, sharedWatchListId, status) => {
   return async (dispatch, getState) => {
@@ -78,8 +82,6 @@ export const deleteSerieFromWatchlist = (sharedWatchListId, serieId) => {
       const { token } = getState().user;
       dispatch(appLoading());
 
-      console.log(token);
-
       const response = await axios.delete(
         `${apiUrl}/watchlists/${sharedWatchListId}/series/${serieId}`,
         {
@@ -91,7 +93,40 @@ export const deleteSerieFromWatchlist = (sharedWatchListId, serieId) => {
       dispatch(
         showMessageWithTimeout("success", false, "delete successfull", 3000)
       );
-      dispatch(serieDeleted(response.data.watchList));
+      dispatch(serieDeleted(sharedWatchListId, serieId));
+      dispatch(appDoneLoading());
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+};
+
+export const addNewSharedList = (name) => {
+  return async (dispatch, getState) => {
+    try {
+      const { token } = getState().user;
+      dispatch(appLoading());
+
+      const response = await axios.post(
+        `${apiUrl}/watchlists`,
+        {
+          name,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      dispatch(
+        showMessageWithTimeout(
+          "success",
+          false,
+          "created new list successfully",
+          3000
+        )
+      );
+      dispatch(newListCreated(response.data.sharedWatchList));
       dispatch(appDoneLoading());
     } catch (e) {
       console.log(e.message);
@@ -111,6 +146,32 @@ export const getAllWatchlists = () => {
         },
       });
       dispatch(allWatchlistsLoaded(response.data));
+      dispatch(appDoneLoading());
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+};
+
+export const shareWithProfile = (profile, sharedWatchListId) => {
+  return async (dispatch, getState) => {
+    try {
+      const { token } = getState().user;
+      dispatch(appLoading());
+
+      const response = await axios.post(
+        `${apiUrl}/watchlists/${sharedWatchListId}/users/${profile.id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("res", response);
+      dispatch(
+        watchListShared(response.data.user, response.data.sharedWatchListId)
+      );
       dispatch(appDoneLoading());
     } catch (e) {
       console.log(e.message);

@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { selectSerieById } from "../store/serie/selectors";
-import { fetchSerieById } from "../store/serie/thunks";
-import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 import { UpdateStatusButton } from "../components/UpdateStatusButton";
-import { selectMyList } from "../store/user/selectors";
+import { selectMyList, selectToken } from "../store/user/selectors";
 import { AddListButton } from "../components/AddListButton";
+import { Button, Container, Image, Col, Row } from "react-bootstrap";
 
-export const SeriesDetails = ({ serieId }) => {
+export const SeriesDetails = () => {
   const serie = useSelector(selectSerieById);
   const myList = useSelector(selectMyList);
   const [serieWithWatchList, setSerieWithWatchList] = useState(undefined);
+  const token = useSelector(selectToken);
 
   useEffect(() => {
     if (serie && myList.series) {
@@ -24,30 +24,49 @@ export const SeriesDetails = ({ serieId }) => {
 
   return (
     serie && (
-      <Card style={{ width: "30%" }}>
-        <Card.Img variant="top" src={serie.poster_path} alt="" />
-        <Card.Body>
-          <Card.Title>{serie.name}</Card.Title>
-          <Card.Text>{serie.overview}</Card.Text>
-        </Card.Body>
-        <ListGroup className="list-group-flush">
-          <ListGroup.Item>Genres: {serie.genres}</ListGroup.Item>
-          <ListGroup.Item>Seasons: {serie.number_of_seasons}</ListGroup.Item>
-          <ListGroup.Item>Rate: {serie.vote_average}</ListGroup.Item>
-        </ListGroup>
-        <Card.Body>
-          {!serieWithWatchList && (
-            <AddListButton
-              text="Add to my list"
-              serieId={serie.id}
-              sharedWatchListId={myList.id}
-            ></AddListButton>
-          )}
-          {serieWithWatchList && (
-            <UpdateStatusButton serie={serieWithWatchList} />
-          )}
-        </Card.Body>
-      </Card>
+      <Container fluid>
+        <Row>
+          <Col>
+            <Image
+              fluid
+              variant="top"
+              src={serie.poster_path}
+              alt=""
+              width={400}
+              height={300}
+            />
+          </Col>
+          <Col>
+            <h5>{serie.name}</h5>
+            <p>{serie.overview}</p>
+            <ListGroup className="list-group-flush">
+              <ListGroup.Item>Genres: {serie.genres}</ListGroup.Item>
+              <ListGroup.Item>
+                Seasons: {serie.number_of_seasons}
+              </ListGroup.Item>
+              <ListGroup.Item>Rate: {serie.vote_average}</ListGroup.Item>
+            </ListGroup>
+            {token ? (
+              <div>
+                {!serieWithWatchList && (
+                  <AddListButton
+                    text="Add to my list"
+                    serieId={serie.id}
+                    sharedWatchListId={myList.id}
+                  ></AddListButton>
+                )}
+                {serieWithWatchList && (
+                  <UpdateStatusButton serie={serieWithWatchList} />
+                )}
+              </div>
+            ) : (
+              <div>
+                <Button to="/login">Login to add to lists</Button>
+              </div>
+            )}
+          </Col>
+        </Row>
+      </Container>
     )
   );
 };

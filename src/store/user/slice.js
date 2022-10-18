@@ -6,6 +6,7 @@ const initialState = {
   sharedWatchList: null,
   filteredWatchList: null,
   activeFilter: "all",
+  profiles: [],
 };
 
 export const userSlice = createSlice({
@@ -33,17 +34,20 @@ export const userSlice = createSlice({
       state.activeFilter = "all";
     },
     serieDeleted: (state, action) => {
-      const serieId = action.payload;
+      state.loading = false;
+      const serieId = action.payload.serieId;
       state.watchlist = state.watchlist.series.filter((s) => s.id === serieId);
       state.filteredWatchList = state.watchlist;
       state.activeFilter = "all";
     },
     serieAddedToMyList: (state, action) => {
+      state.loading = false;
       state.sharedWatchList = action.payload;
       state.filteredWatchList = action.payload;
       state.activeFilter = "all";
     },
     statusUpdated: (state, action) => {
+      state.loading = false;
       const newWatchListSerie = action.payload;
       state.sharedWatchList.series.map((serie) => {
         if (
@@ -62,19 +66,26 @@ export const userSlice = createSlice({
       state.activeFilter = "all";
     },
     filterMyList: (state, action) => {
+      state.loading = false;
       const filter = action.payload;
       if (filter === "all") {
         state.activeFilter = "all";
         state.filteredWatchList = state.sharedWatchList;
       } else {
         state.activeFilter = filter;
+        state.filteredWatchList = state.sharedWatchList;
         state.filteredWatchList.series = state.sharedWatchList.series.filter(
           (serie) => serie.sharedWatchListSeries.status === filter
         );
       }
     },
     shareListMenuAction: (state, action) => {
+      state.loading = false;
       state.activeFilter = "share";
+    },
+    fetchUsers: (state, action) => {
+      state.loading = false;
+      state.profiles = action.payload;
     },
   },
 });
@@ -88,6 +99,7 @@ export const {
   filterMyList,
   shareListMenuAction,
   serieDeleted,
+  fetchUsers,
 } = userSlice.actions;
 
 export default userSlice.reducer;
