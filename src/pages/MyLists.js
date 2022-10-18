@@ -10,6 +10,8 @@ import { WatchListFilters } from "../components/WatchListFilters";
 import { SharedWatchlists } from "../components/SharedWatchlists";
 import { selectActiveFilter } from "../store/user/selectors";
 import { getUserWithStoredToken } from "../store/user/thunks";
+import { deleteSerieFromWatchlist } from "../store/watchList/thunks";
+import { Button } from "react-bootstrap";
 import "./index.css";
 import { act } from "react-dom/test-utils";
 
@@ -20,6 +22,10 @@ export const MyLists = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   console.log("myList is", myList);
+
+   const deleteSerie = (watchlistsId, serieId) => {
+     dispatch(deleteSerieFromWatchlist(watchlistsId, serieId));
+   };
 
   useEffect(() => {
     if (myList === null) {
@@ -40,6 +46,9 @@ export const MyLists = () => {
               <div key={serie.id}>
                 <h6>{serie.name}</h6>
                 <UpdateStatusButton serie={serie} />
+                <Button variant="danger" onClick={() => deleteSerie(myList.id, serie.id)}>
+                  Delete
+                </Button>
               </div>
             ))}
           {activeFilter === "share" && <SharedWatchlists />}

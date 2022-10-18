@@ -32,10 +32,12 @@ export const userSlice = createSlice({
       state.filteredWatchList = action.payload.sharedWatchList;
       state.activeFilter = "all";
     },
-    // storyDeleteSuccess: (state, action) => {
-    //   const storyId = action.payload;
-    //   state.space.stories = state.space.stories.filter((s) => s.id !== storyId);
-    // },
+    serieDeleted: (state, action) => {
+      const serieId = action.payload;
+      state.watchlist = state.watchlist.series.filter((s) => s.id === serieId);
+      state.filteredWatchList = state.watchlist;
+      state.activeFilter = "all";
+    },
     serieAddedToMyList: (state, action) => {
       state.sharedWatchList = action.payload;
       state.filteredWatchList = action.payload;
@@ -85,6 +87,7 @@ export const {
   serieAddedToMyList,
   filterMyList,
   shareListMenuAction,
+  serieDeleted,
 } = userSlice.actions;
 
 export default userSlice.reducer;

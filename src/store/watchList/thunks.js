@@ -1,6 +1,6 @@
 import { apiUrl } from "../../config/constants";
 import axios from "axios";
-import { statusUpdated, serieAddedToMyList } from "../user/slice";
+import { statusUpdated, serieAddedToMyList, serieDeleted } from "../user/slice";
 import { appLoading, appDoneLoading } from "../appState/slice";
 import { showMessageWithTimeout } from "../appState/thunks";
 import { allWatchlistsLoaded } from "../watchList/slice";
@@ -65,6 +65,33 @@ export const addToWatchList = (sharedWatchListId, serieId, status) => {
       dispatch(
         serieAddedToMyList(response.data.userId, response.data.sharedWatchLists)
       );
+      dispatch(appDoneLoading());
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+};
+
+export const deleteSerieFromWatchlist = (sharedWatchListId, serieId) => {
+  return async (dispatch, getState) => {
+    try {
+      const { token } = getState().user;
+      dispatch(appLoading());
+
+      console.log(token);
+
+      const response = await axios.delete(
+        `${apiUrl}/watchlists/${sharedWatchListId}/series/${serieId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      dispatch(
+        showMessageWithTimeout("success", false, "delete successfull", 3000)
+      );
+      dispatch(serieDeleted(response.data.watchList));
       dispatch(appDoneLoading());
     } catch (e) {
       console.log(e.message);

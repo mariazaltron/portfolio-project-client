@@ -7,6 +7,7 @@ import {
 } from "../store/watchList/selectors";
 import { Table } from "react-bootstrap";
 import { RiUser5Fill } from "react-icons/ri";
+import { Button } from "react-bootstrap";
 
 export const SharedWatchlists = () => {
   const dispatch = useDispatch();
@@ -81,6 +82,7 @@ export const SharedWatchlists = () => {
                 ))}
               </tbody>
             </Table>
+            <Button>Share</Button>
           </div>
         ))}
     </div>
