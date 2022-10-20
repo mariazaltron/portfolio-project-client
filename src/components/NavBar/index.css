@@ -5,7 +5,10 @@
 
 .links {
     color: #eb81e4;
-    text-shadow: 2px 2px 5px #e6a8e2;
+}
+
+.links:hover {
+  color: #ffffff;
 }
 
 .button {
@@ -19,20 +22,20 @@
 
 /* unvisited link */
 links:link {
-  color: #eb81e4;
+/*  color: #eb81e4;*/
 }
 
 /* visited link */
 links:visited {
-  color: #eb81e4;
+/*  color: #eb81e4;*/
 }
 
 /* mouse over link */
 links:hover {
-  color: white;
+/*  color: white;*/
 }
 
 /* selected link */
 links:active {
-  color: white;
+/*  color: white;*/
 }

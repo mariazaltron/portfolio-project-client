@@ -77,7 +77,7 @@ export const SharedWatchlists = () => {
         <h5>Watchlists shared with me</h5>
         {sharedWithMe && sharedWithMe.length > 0 ? (
           sharedWithMe.map((sm) => (
-            <div>
+            <div key={sm.id}>
               <Table striped bordered hover>
                 <thead>
                   <tr>
@@ -91,7 +91,7 @@ export const SharedWatchlists = () => {
                     <td>
                       {sm.users && sm.users.length > 0 ? (
                         sm.users.map((u) => (
-                          <div>
+                          <div key={u.id}>
                             <RiUser5Fill />
                             <p>{u.name}</p>
                           </div>
@@ -120,7 +120,7 @@ export const SharedWatchlists = () => {
                   {sm.series.map((s) => (
                     <tr key={s.id}>
                       <td>{s.name}</td>
-                      <td>{s.sharedWatchListSeries.status}</td>
+                      <td>{s.watchListSeries.status}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -135,7 +135,7 @@ export const SharedWatchlists = () => {
         <h5>Watchlists I've shared with others</h5>
         {sharedWithOthers && sharedWithOthers.length > 0
           ? sharedWithOthers.map((so) => (
-              <div>
+            <div key={so.id}>
                 <Table striped bordered hover>
                   <thead>
                     <tr>
@@ -149,7 +149,7 @@ export const SharedWatchlists = () => {
                       <td>
                         {so.users && so.users.length > 0 ? (
                           so.users.map((u) => (
-                            <div>
+                            <div key={u.id}>
                               <RiUser5Fill />
                               <p>{u.name}</p>
                             </div>
@@ -168,16 +168,16 @@ export const SharedWatchlists = () => {
 
       {/* <div>
         <div className="panel">
-          
-          
+
+
         </div>
       </div>
         <div className="panel">
 
               </div>
           <div>
-          
-           
+
+
                 <div>
                   <p>{so.name}</p>
                   <span>

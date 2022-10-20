@@ -42,7 +42,7 @@ export const MyLists = () => {
         </Col>
         <Col xs={12} md={8}>
           {myList && activeFilter !== "share" && (
-            <ListGroup>
+            <ListGroup bg="dark" >
               {myList.series && myList.series.length > 0 ? (
                 series.map(serie => {
                   // <p>{serie.name}</p>

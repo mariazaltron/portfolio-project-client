@@ -10,7 +10,7 @@ import { selectToken } from "../../store/user/selectors";
 import { logOut } from "../../store/user/slice";
 import { clearSerieById } from "../../store/serie/slice";
 import { fetchSerieByName } from "../../store/serie/thunks";
-import { NavLink } from "react-router-dom";
+import {IoMdLogOut, IoMdLogIn} from "react-icons/io";
 import "./index.css";
 
 export const NavBar = () => {
@@ -37,9 +37,9 @@ export const NavBar = () => {
   };
 
   return (
-    <Navbar expand="lg">
-      <Container fluid className="navbar">
-        <Navbar.Brand className="links" onClick={() => navigate("/")}>
+    <Navbar bg="dark" variant="dark" expand="lg">
+      <Container fluid>
+        <Navbar.Brand onClick={() => navigate("/")}>
           WATCHLIST
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
@@ -58,13 +58,18 @@ export const NavBar = () => {
               </Nav.Link>
             )}
             {token && (
+              <Nav.Link onClick={() => navigate("/shared")} className="links">
+                Shared Lists
+              </Nav.Link>
+              )}
+            {token && (
               <Nav.Link onClick={clearUser} className="links">
-                Logout
+                <IoMdLogOut/> Logout
               </Nav.Link>
             )}
             {!token && (
               <Nav.Link onClick={() => navigate("/login")} className="links">
-                Login
+                <IoMdLogIn/> Login
               </Nav.Link>
             )}
           </Nav>
@@ -78,14 +83,14 @@ export const NavBar = () => {
               aria-label="Search"
               onChange={onChangeSearch}
             />
-            <button
+            <Button
               variant="dark"
               type="button"
               onClick={onSearch}
               className="button"
             >
               Search
-            </button>
+            </Button>
           </Form>
         </Navbar.Collapse>
       </Container>

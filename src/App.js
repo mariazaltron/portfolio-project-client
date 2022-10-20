@@ -14,7 +14,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getUserWithStoredToken } from "./store/user/thunks";
 import { MessageBox } from "./components/MessageBox";
-import SharedWatchlists from "./components/SharedWatchlists/SharedWatchlists";
+import {SharedPage} from "./pages/SharedPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
         <Route path="/search" element={<SearchResults />} />
-        <Route path="/shared" element={<SharedWatchlists />} />
+        <Route path="/shared" element={<SharedPage />} />
       </Routes>
     </div>
   );
