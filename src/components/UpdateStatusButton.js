@@ -3,7 +3,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import { updateSerieStatus } from "../store/watchList/thunks";
 
 export const UpdateStatusButton = ({ serie }) => {
-  console.log("serie button", serie);
+  // console.log("serie button", serie);
   const dispatch = useDispatch();
 
   const updateStatus = (serie, status) => {

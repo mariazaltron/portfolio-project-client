@@ -1,14 +1,14 @@
 import {useDispatch, useSelector} from "react-redux";
-import ListGroup from "react-bootstrap/ListGroup";
 import { UpdateStatusButton } from "../UpdateStatusButton";
 import { selectMyList, selectToken } from "../../store/user/selectors";
-import { Button, Container, Image, Col, Row } from "react-bootstrap";
+import { Button, Container, Image, Col, Row, Card } from "react-bootstrap";
 import { selectSeriePreview } from "../../store/serie/selectors";
 import { addSerieToMyList } from "../../store/watchList/thunks";
 import { movieDbImgUrl } from "../../config/constants";
 import { IoMdLogIn, IoMdAddCircleOutline } from "react-icons/io";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
+import "./index.css";
 
 export const SeriesDetails = () => {
   const serie = useSelector(selectSeriePreview);
@@ -32,9 +32,9 @@ export const SeriesDetails = () => {
   };
 
   useEffect(() => {
-    console.log("seriePreview", serie)
-    console.log("is serie in my list ? ", isSerieInMyList())
-    console.log("serie from my list ? ", getSerieFromMyList())
+    // console.log("seriePreview", serie)
+    // console.log("is serie in my list ? ", isSerieInMyList())
+    // console.log("serie from my list ? ", getSerieFromMyList())
     setSerieInMyList(isSerieInMyList());
     setSerieFromMyList(getSerieFromMyList());
     }, [serie, myList]);
@@ -49,9 +49,10 @@ export const SeriesDetails = () => {
   return (
     serie && (
       <Container fluid>
-        <Row>
+        <Row className="row-seriedetailspage">
           <Col>
             <Image
+              className="img-seriedetailspage"
               fluid
               variant="top"
               src={movieDbImgUrl + serie.poster_path}
@@ -60,28 +61,35 @@ export const SeriesDetails = () => {
               height={300}
             />
           </Col>
-          <Col>
-            <h5>{serie.name}</h5>
-            <p>{serie.overview}</p>
-            <ListGroup className="list-group-flush">
-              <ListGroup.Item>Rate: {serie.vote_average}</ListGroup.Item>
-            </ListGroup>
-            {token ? (
-              <div>
-                {!serieInMyList && (
-                  <Button size="sm" onClick={() => addToList()}><IoMdAddCircleOutline /> Add</Button>
+          <Col className="col-seriedetailspage">
+            <Card bg="dark" border="light" className="card-seriedetailspage">
+              <Card.Body>
+                <Card.Title className="title-seriedetailspage">{serie.name}</Card.Title>
+                <Card.Text className="text-seriedetailspage">{serie.overview}</Card.Text>
+                <Card.Text className="text-seriedetailspage">Rate: {serie.vote_average}</Card.Text>
+                {token ? (
+                  <div>
+                    {!serieInMyList && (
+                      <Button size="sm" onClick={() => addToList()}>
+                        <IoMdAddCircleOutline /> Add
+                      </Button>
+                    )}
+                    {serieInMyList && (
+                      <UpdateStatusButton serie={serieFromMyList} />
+                    )}
+                  </div>
+                ) : (
+                  <div>
+                    <Button size="sm" onClick={() => navigate("/login")}>
+                      <IoMdLogIn /> Login to add
+                    </Button>
+                  </div>
                 )}
-                {serieInMyList && (
-                  <UpdateStatusButton serie={serieFromMyList} />
-                )}
-              </div>
-            ) : (
-              <div>
-                <Button size="sm" onClick={() => navigate("/login")}><IoMdLogIn /> Login to add</Button>
-              </div>
-            )}
+              </Card.Body>
+            </Card>
           </Col>
         </Row>
+        <div></div>
       </Container>
     )
   );

@@ -12,6 +12,7 @@ import { clearSerieById } from "../../store/serie/slice";
 import { fetchSerieByName } from "../../store/serie/thunks";
 import { NavLink } from "react-router-dom";
 import "./index.css";
+
 export const NavBar = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useDispatch();

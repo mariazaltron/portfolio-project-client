@@ -1,0 +1,25 @@
+.row-seriedetailspage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.img-seriedetailspage {
+    border: 1px solid white;
+    margin: auto;
+    display: block;
+}
+
+.title-seriedetailspage {
+    color: white;
+    font-size:x-large;
+}
+
+.text-seriedetailspage {
+    color: white;
+}
+
+/* .card-seriedetailspage {
+    display: flex;
+   
+} */
