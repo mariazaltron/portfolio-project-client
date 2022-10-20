@@ -1,8 +1,8 @@
 import ListGroup from "react-bootstrap/ListGroup";
 import { useDispatch, useSelector } from "react-redux";
-import { filterMyList, shareListMenuAction } from "../store/user/slice";
-import { selectActiveFilter } from "../store/user/selectors";
-import { RiUserSharedLine } from "react-icons/ri";
+import { filterMyList } from "../../store/user/slice";
+import { selectActiveFilter } from "../../store/user/selectors";
+import "./index.css";
 
 export const WatchListFilters = () => {
   const dispatch = useDispatch();
@@ -11,15 +11,14 @@ export const WatchListFilters = () => {
   const filterList = (filter) => {
     dispatch(filterMyList(filter));
   };
-  const shareList = () => {
-    dispatch(shareListMenuAction());
-  };
+
   return (
     <ListGroup defaultActiveKey="#link1">
       <ListGroup.Item
         action
         onClick={() => filterList("all")}
         active={activeFilter === "all"}
+        variant="light"
       >
         All
       </ListGroup.Item>
@@ -27,6 +26,7 @@ export const WatchListFilters = () => {
         action
         onClick={() => filterList("watching")}
         active={activeFilter === "watching"}
+        variant="light"
       >
         Watching
       </ListGroup.Item>
@@ -34,6 +34,7 @@ export const WatchListFilters = () => {
         action
         onClick={() => filterList("completed")}
         active={activeFilter === "completed"}
+        variant="light"
       >
         Completed
       </ListGroup.Item>
@@ -41,15 +42,9 @@ export const WatchListFilters = () => {
         action
         onClick={() => filterList("plan to watch")}
         active={activeFilter === "plan to watch"}
+        variant="light"
       >
         Plan to watch
-      </ListGroup.Item>
-      <ListGroup.Item
-        action
-        onClick={shareList}
-        active={activeFilter === "share"}
-      >
-        Share <RiUserSharedLine />
       </ListGroup.Item>
     </ListGroup>
   );

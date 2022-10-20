@@ -13,7 +13,11 @@ export const UpdateStatusButton = ({ serie }) => {
     <div>
       {serie && (
         <Dropdown size="sm">
-          <Dropdown.Toggle variant="success" id="dropdown-basic">
+          <Dropdown.Toggle
+            variant="success"
+            id="dropdown-basic"
+            className="button-mylist"
+          >
             {serie.status}
           </Dropdown.Toggle>
           <Dropdown.Menu>

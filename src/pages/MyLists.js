@@ -1,10 +1,10 @@
 import { useSelector, useDispatch } from "react-redux";
-import { selectMyList, selectToken } from "../store/user/selectors";
+import { selectMyList } from "../store/user/selectors";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { UpdateStatusButton } from "../components/UpdateStatusButton";
-import { WatchListFilters } from "../components/WatchListFilters";
+import { WatchListFilters } from "../components/WatchListFilters/WatchListFilters";
 import { selectActiveFilter } from "../store/user/selectors";
 import { deleteSerieFromWatchlist } from "../store/watchList/thunks";
 import { Button, ListGroup } from "react-bootstrap";
@@ -48,7 +48,7 @@ export const MyLists = () => {
                   // <p>{serie.name}</p>
                   // console.log("serie", serie);
                   return (
-                    <ListGroup.Item>
+                    <ListGroup.Item key={serie.id}>
                       <ListGroup
                         key={serie.id}
                         horizontal
@@ -60,7 +60,7 @@ export const MyLists = () => {
                               src={movieDbImgUrl + serie.poster_path}
                               alt="tv serie poster"
                               height="100px"
-                              onError={(e) => e.target.src = DefaultImage}
+                              onError={(e) => (e.target.src = DefaultImage)}
                             />
                           </ListGroup.Item>
                           <ListGroup.Item className="title-serie-list">
@@ -69,12 +69,16 @@ export const MyLists = () => {
                         </div>
                         <div className="list-buttons">
                           <ListGroup.Item md="auto">
-                            <UpdateStatusButton serie={serie.watchListSeries} />
+                            <UpdateStatusButton
+                              serie={serie.watchListSeries}
+                              className="button-mylist"
+                            />
                           </ListGroup.Item>
                           <ListGroup.Item xs="true" lg="2">
                             <Button
                               variant="danger"
                               onClick={() => deleteSerie(myList.id, serie.id)}
+                              className="button-mylist"
                             >
                               Delete
                             </Button>

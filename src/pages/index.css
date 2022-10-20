@@ -8,6 +8,9 @@
 
 
 /* MyList CSS */
+.button-mylist {
+   box-shadow: 2px 2px 5px white;
+}
 
 .series-list {
    display: flex;
@@ -41,7 +44,7 @@
 
 .list-group-item {
   
-   background-color: black;
+   background-color: #212529;
 }
 
 .mylist-container {
@@ -73,7 +76,7 @@
 
 .image-list {
    padding: 0;
-   box-shadow: 2px 2px 5px #e6a8e2;
+   box-shadow: 2px 2px 5px white;
 }
 
 .card-title {
