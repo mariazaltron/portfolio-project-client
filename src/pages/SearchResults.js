@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { movieDbImgUrl } from "../config/constants.js";
 import { useNavigate } from "react-router-dom";
+import DefaultImage from "../assets/images/broken-image.png";
 
 export const SearchResults = () => {
   const loading = useSelector(selectAppLoading);
@@ -30,6 +31,7 @@ export const SearchResults = () => {
                 src={movieDbImgUrl + result.poster_path}
                 // height="350px"
                 width="383px"
+                onError={(e) => e.target.src = DefaultImage}
               />
               <Card.Body>
                 <Card.Title className="card-title">{result.name}</Card.Title>

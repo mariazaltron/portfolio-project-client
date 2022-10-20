@@ -9,6 +9,8 @@ import { IoMdLogIn, IoMdAddCircleOutline } from "react-icons/io";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import "./index.css";
+import DefaultImage from "../../assets/images/broken-image.png";
+
 
 export const SeriesDetails = () => {
   const serie = useSelector(selectSeriePreview);
@@ -59,6 +61,7 @@ export const SeriesDetails = () => {
               alt=""
               width={400}
               height={300}
+              onError={(e) => e.target.src = DefaultImage}
             />
           </Col>
           <Col className="col-seriedetailspage">

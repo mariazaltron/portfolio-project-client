@@ -1,28 +1,23 @@
 import { useSelector, useDispatch } from "react-redux";
-import { selectMyFilteredList, selectToken } from "../store/user/selectors";
-import { selectAppLoading } from "../store/appState/selectors";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { selectMyList, selectToken } from "../store/user/selectors";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { UpdateStatusButton } from "../components/UpdateStatusButton";
 import { WatchListFilters } from "../components/WatchListFilters";
-import { SharedWatchlists } from "../components/SharedWatchlists/SharedWatchlists";
 import { selectActiveFilter } from "../store/user/selectors";
-import { getUserWithStoredToken } from "../store/user/thunks";
 import { deleteSerieFromWatchlist } from "../store/watchList/thunks";
-import { Button, ListGroup, ListGroupItem } from "react-bootstrap";
+import { Button, ListGroup } from "react-bootstrap";
 import { movieDbImgUrl } from "../config/constants";
+import DefaultImage from "../assets/images/broken-image.png";
 
 import "./index.css";
+import {useEffect, useState} from "react";
 
 export const MyLists = () => {
-  const loading = useSelector(selectAppLoading);
-  const myList = useSelector(selectMyFilteredList);
+  const myList = useSelector(selectMyList);
   const activeFilter = useSelector(selectActiveFilter);
-  const token = useSelector(selectToken);
-  const navigate = useNavigate();
+  const [series, setSeries] = useState([]);
   const dispatch = useDispatch();
   console.log("myList is", myList);
 
@@ -30,14 +25,16 @@ export const MyLists = () => {
     dispatch(deleteSerieFromWatchlist(watchlistsId, serieId));
   };
 
-  // useEffect(() => {
-  //   if (myList === null) {
-  //     dispatch(getUserWithStoredToken());
-  //   }
-  // }, [dispatch, myList]);
+  const getSeriesByFilter = () => {
+    if(!myList && !myList.series) return [];
+    return myList.series.filter(s => activeFilter === "all" || s.watchListSeries.status === activeFilter)
+  }
+
+  useEffect(() => {
+    setSeries(getSeriesByFilter())
+  }, [activeFilter]);
 
   return (
-    // <div>My lists</div>
     <Container fluid className="mylist-container">
       <Row>
         <Col xs={4} md={2}>
@@ -47,7 +44,7 @@ export const MyLists = () => {
           {myList && activeFilter !== "share" && (
             <ListGroup>
               {myList.series && myList.series.length > 0 ? (
-                myList.series.map((serie) => {
+                series.map(serie => {
                   // <p>{serie.name}</p>
                   // console.log("serie", serie);
                   return (
@@ -63,6 +60,7 @@ export const MyLists = () => {
                               src={movieDbImgUrl + serie.poster_path}
                               alt="tv serie poster"
                               height="100px"
+                              onError={(e) => e.target.src = DefaultImage}
                             />
                           </ListGroup.Item>
                           <ListGroup.Item className="title-serie-list">

@@ -4,7 +4,6 @@ const initialState = {
   token: localStorage.getItem("token"),
   profile: null,
   sharedWatchList: null,
-  filteredWatchList: null,
   activeFilter: "all",
   profiles: [],
 };
@@ -18,7 +17,6 @@ export const userSlice = createSlice({
       state.token = action.payload.token;
       state.profile = action.payload.user;
       state.sharedWatchList = action.payload.sharedWatchList;
-      state.filteredWatchList = action.payload.sharedWatchList;
       state.activeFilter = "all";
     },
     logOut: (state, action) => {
@@ -30,20 +28,17 @@ export const userSlice = createSlice({
       state.token = action.payload.token;
       state.profile = action.payload.user;
       state.sharedWatchList = action.payload.sharedWatchList;
-      state.filteredWatchList = action.payload.sharedWatchList;
       state.activeFilter = "all";
     },
     serieDeleted: (state, action) => {
       state.loading = false;
       const serieId = action.payload.serieId;
       state.watchlist = state.watchlist.series.filter((s) => s.id === serieId);
-      state.filteredWatchList = state.watchlist;
       state.activeFilter = "all";
     },
     serieAddedToMyList: (state, action) => {
       state.loading = false;
       state.sharedWatchList = action.payload.watchlist;
-      state.filteredWatchList = action.payload.watchlist;
       state.seriePreview = action.payload.serie;
     },
     statusUpdated: (state, action) => {
@@ -62,22 +57,11 @@ export const userSlice = createSlice({
           return serie;
         }
       });
-      state.filteredWatchList = state.sharedWatchList;
       state.activeFilter = "all";
     },
     filterMyList: (state, action) => {
       state.loading = false;
-      const filter = action.payload;
-      if (filter === "all") {
-        state.activeFilter = "all";
-        state.filteredWatchList = state.sharedWatchList;
-      } else {
-        state.activeFilter = filter;
-        state.filteredWatchList = state.sharedWatchList;
-        state.filteredWatchList.series = state.sharedWatchList.series.filter(
-          (serie) => serie.sharedWatchListSeries.status === filter
-        );
-      }
+      state.activeFilter = action.payload;
     },
     shareListMenuAction: (state, action) => {
       state.loading = false;
