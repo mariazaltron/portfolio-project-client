@@ -42,9 +42,9 @@ export const userSlice = createSlice({
     },
     serieAddedToMyList: (state, action) => {
       state.loading = false;
-      state.sharedWatchList = action.payload;
-      state.filteredWatchList = action.payload;
-      state.activeFilter = "all";
+      state.sharedWatchList = action.payload.watchlist;
+      state.filteredWatchList = action.payload.watchlist;
+      state.seriePreview = action.payload.serie;
     },
     statusUpdated: (state, action) => {
       state.loading = false;
@@ -100,6 +100,7 @@ export const {
   shareListMenuAction,
   serieDeleted,
   fetchUsers,
+  newSerieAddedToList
 } = userSlice.actions;
 
 export default userSlice.reducer;

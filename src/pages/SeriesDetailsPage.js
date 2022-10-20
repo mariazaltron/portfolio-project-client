@@ -6,9 +6,7 @@ import { SeriesDetails } from "../components/SeriesDetails/SeriesDetails";
 export const SeriesDetailsPage = () => {
   const loading = useSelector(selectAppLoading);
 
-  return loading ? (
-    <p> Loading...</p>
-  ) : (
+  return (
     <div>
       <div>
         <SeriesDetails />

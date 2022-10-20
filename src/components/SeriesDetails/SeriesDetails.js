@@ -1,35 +1,47 @@
-import { useSelector } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import ListGroup from "react-bootstrap/ListGroup";
-import { UpdateStatusButton } from "../../components/UpdateStatusButton";
+import { UpdateStatusButton } from "../UpdateStatusButton";
 import { selectMyList, selectToken } from "../../store/user/selectors";
-import { AddListButton } from "../../components/AddListButton";
 import { Button, Container, Image, Col, Row } from "react-bootstrap";
 import { selectSeriePreview } from "../../store/serie/selectors";
+import { addSerieToMyList } from "../../store/watchList/thunks";
 import { movieDbImgUrl } from "../../config/constants";
-import { useEffect, useState } from "react";
+import { IoMdLogIn, IoMdAddCircleOutline } from "react-icons/io";
+import {useNavigate} from "react-router-dom";
+import {useEffect, useState} from "react";
 
 export const SeriesDetails = () => {
   const serie = useSelector(selectSeriePreview);
   const token = useSelector(selectToken);
   const myList = useSelector(selectMyList);
+  const [serieInMyList, setSerieInMyList] = useState(false)
+  const [serieFromMyList, setSerieFromMyList] = useState(null)
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const serieInMyList = () => {
-    console.log(
-      "serieInMyList",
-      serie && myList && myList.series.includes((s) => s.tmdb_id === serie.id)
-    );
-    return (
-      serie && myList && myList.series.includes((s) => s.tmdb_id === serie.id)
-    );
+  const isSerieInMyList = () => {
+    return serie && myList && myList.series.filter((s) => s.tmdb_id === serie.id).length > 0;
   };
 
   const getSerieFromMyList = () => {
     return serie && myList
-      ? myList.series
-          .filter((s) => s.tmdb_id === serie.id)
-          .map((s) => s.watchListSeries)
-      : null;
+    ? myList.series
+    .filter((s) => s.tmdb_id === serie.id)
+    .map((s) => s.watchListSeries).at(0)
+    : null;
   };
+
+  useEffect(() => {
+    console.log("seriePreview", serie)
+    console.log("is serie in my list ? ", isSerieInMyList())
+    console.log("serie from my list ? ", getSerieFromMyList())
+    setSerieInMyList(isSerieInMyList());
+    setSerieFromMyList(getSerieFromMyList());
+    }, [serie, myList]);
+
+  const addToList = () => {
+    dispatch(addSerieToMyList(serie, myList.id))
+  }
 
   // console.log("serie", serie);
   // console.log("mylist", myList);
@@ -52,28 +64,20 @@ export const SeriesDetails = () => {
             <h5>{serie.name}</h5>
             <p>{serie.overview}</p>
             <ListGroup className="list-group-flush">
-              <ListGroup.Item>Genres: {serie.genres}</ListGroup.Item>
-              <ListGroup.Item>
-                Seasons: {serie.number_of_seasons}
-              </ListGroup.Item>
               <ListGroup.Item>Rate: {serie.vote_average}</ListGroup.Item>
             </ListGroup>
             {token ? (
               <div>
-                {!serieInMyList() && (
-                  <AddListButton
-                    text="Add to my list"
-                    serie={serie}
-                    sharedWatchListId={myList.id}
-                  ></AddListButton>
+                {!serieInMyList && (
+                  <Button size="sm" onClick={() => addToList()}><IoMdAddCircleOutline /> Add</Button>
                 )}
-                {serieInMyList() && (
-                  <UpdateStatusButton serie={getSerieFromMyList()} />
+                {serieInMyList && (
+                  <UpdateStatusButton serie={serieFromMyList} />
                 )}
               </div>
             ) : (
               <div>
-                <Button to="/login">Login to add to lists</Button>
+                <Button size="sm" onClick={() => navigate("/login")}><IoMdLogIn /> Login to add</Button>
               </div>
             )}
           </Col>

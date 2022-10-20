@@ -73,19 +73,3 @@ export const fetchSerieByName = (name) => async (dispatch, getState) => {
     console.log(e.message);
   }
 };
-
-export const saveSerie = (serie) => async (dispatch, getState) => {
-  try {
-    dispatch(startLoading());
-    const serieInTmdb = await axios.get(`${movieDbApiUrl}/tv/${serie.id}`, {
-      params: { api_key: movieDbApiKey },
-    });
-    const response = await axios.post(`${apiUrl}/series`, serieInTmdb.data);
-
-    const serieSaved = response.data;
-    console.log(serieSaved);
-    dispatch(serieById(serieSaved));
-  } catch (e) {
-    console.log(e.message);
-  }
-};
