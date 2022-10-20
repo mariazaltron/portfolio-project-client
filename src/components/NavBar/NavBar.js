@@ -38,7 +38,9 @@ export const NavBar = () => {
   return (
     <Navbar expand="lg">
       <Container fluid className="navbar">
-        <Navbar.Brand className="links">WATCHLIST</Navbar.Brand>
+        <Navbar.Brand className="links" onClick={() => navigate("/")}>
+          WATCHLIST
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav

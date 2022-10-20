@@ -15,3 +15,24 @@
     margin: 5px;
     border: 2px solid #eb81e4 ;
 }
+
+
+/* unvisited link */
+links:link {
+  color: #eb81e4;
+}
+
+/* visited link */
+links:visited {
+  color: #eb81e4;
+}
+
+/* mouse over link */
+links:hover {
+  color: white;
+}
+
+/* selected link */
+links:active {
+  color: white;
+}

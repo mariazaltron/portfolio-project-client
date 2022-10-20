@@ -20,11 +20,11 @@ export const SearchResults = () => {
   return loading ? (
     <p>Loading...</p>
   ) : (
-    <div className="container" >
-      <Row xs={1} md={5} className="g-4">
+    <div className="container-searchresults">
+      <Row xs={1} md={6} className="container-searchresults">
         {results.map((result) => (
           <Col key={result.id}>
-            <Card>
+            <Card className="text-center" border="light">
               <Card.Img
                 variant="top"
                 src={movieDbImgUrl + result.poster_path}
@@ -32,8 +32,14 @@ export const SearchResults = () => {
                 width="383px"
               />
               <Card.Body>
-                <Card.Title>{result.name}</Card.Title>
-                <Button onClick={() => viewMore(result)}>More</Button>
+                <Card.Title className="card-title">{result.name}</Card.Title>
+                <Button
+                  variant="dark"
+                  size="sm"
+                  onClick={() => viewMore(result)}
+                >
+                  More
+                </Button>
               </Card.Body>
             </Card>
           </Col>
