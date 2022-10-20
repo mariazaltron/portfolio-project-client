@@ -73,56 +73,111 @@ export const SharedWatchlists = () => {
           </Form>
         )}
       </div>
-
       <div>
-        <div className="panel">
-          <h5>Watchlists shared with me</h5>
-          {sharedWithMe && sharedWithMe.length > 0 ? (
-            sharedWithMe.map((sm) => (
+        <h5>Watchlists shared with me</h5>
+        {sharedWithMe && sharedWithMe.length > 0 ? (
+          sharedWithMe.map((sm) => (
+            <div>
+              <Table striped bordered hover>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Shared with:</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{sm.name}</td>
+                    <td>
+                      {sm.users && sm.users.length > 0 ? (
+                        sm.users.map((u) => (
+                          <div>
+                            <RiUser5Fill />
+                            <p>{u.name}</p>
+                          </div>
+                        ))
+                      ) : (
+                        <p>-</p>
+                      )}
+                    </td>
+                  </tr>
+                </tbody>
+              </Table>
               <div>
-                <div>
-                  <p>{sm.name}</p>
-                  <span>
-                    <p>Shared with:&nbsp;</p>
-                    {sm.users && sm.users.length > 0 ? (
-                      sm.users.map((u) => (
-                        <span key={u.id}>
-                          <RiUser5Fill />
-                          <p>{u.name}</p>
-                        </span>
-                      ))
-                    ) : (
-                      <p>-</p>
-                    )}
-                  </span>
-                </div>
-                <Table striped hover size="sm">
+                <p></p>
+                <span>
+                  <p>Shared with:&nbsp;</p>
+                </span>
+              </div>
+              <Table striped hover size="sm">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {sm.series.map((s) => (
+                    <tr key={s.id}>
+                      <td>{s.name}</td>
+                      <td>{s.sharedWatchListSeries.status}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </div>
+          ))
+        ) : (
+          <p> - </p>
+        )}
+      </div>
+      <div>
+        <h5>Watchlists I've shared with others</h5>
+        {sharedWithOthers && sharedWithOthers.length > 0
+          ? sharedWithOthers.map((so) => (
+              <div>
+                <Table striped bordered hover>
                   <thead>
                     <tr>
                       <th>Name</th>
-                      <th>Status</th>
+                      <th>Shared with:</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {sm.series.map((s) => (
-                      <tr>
-                        <td>{s.name}</td>
-                        <td>{s.sharedWatchListSeries.status}</td>
-                      </tr>
-                    ))}
+                    <tr>
+                      <td>{so.name}</td>
+                      <td>
+                        {so.users && so.users.length > 0 ? (
+                          so.users.map((u) => (
+                            <div>
+                              <RiUser5Fill />
+                              <p>{u.name}</p>
+                            </div>
+                          ))
+                        ) : (
+                          <p>-</p>
+                        )}
+                      </td>
+                    </tr>
                   </tbody>
-                </Table>
+                </Table>{" "}
               </div>
             ))
-          ) : (
-            <p> - </p>
-          )}
-        </div>
+          : null}
+      </div>
+
+      {/* <div>
         <div className="panel">
-          <h5>Watchlists I've shared with others</h5>
-          {sharedWithOthers && sharedWithOthers.length > 0 ? (
-            sharedWithOthers.map((so) => (
-              <div>
+          
+          
+        </div>
+      </div>
+        <div className="panel">
+
+              </div>
+          <div>
+          
+           
                 <div>
                   <p>{so.name}</p>
                   <span>
@@ -138,8 +193,9 @@ export const SharedWatchlists = () => {
                       <p>-</p>
                     )}
                   </span>
-                </div>
-                <Table striped hover size="sm">
+                </div> */}
+
+      {/* <Table striped hover size="sm">
                   <thead>
                     <tr>
                       <th>Name</th>
@@ -148,15 +204,17 @@ export const SharedWatchlists = () => {
                   </thead>
                   <tbody>
                     {so.series.map((s) => (
-                      <tr>
+                      <tr key={s.id}>
                         <td>{s.name}</td>
                         <td>{s.sharedWatchListSeries.status}</td>
                       </tr>
                     ))}
                   </tbody>
-                </Table>
-                <Button onClick={() => startSharing(so.id)}>Share</Button>
-                {sharing && currentSharing && currentSharing === so.id && (
+                </Table> */}
+
+      {/* <Button onClick={() => startSharing(so.id)}>Share</Button> */}
+
+      {/* {sharing && currentSharing && currentSharing === so.id && (
                   <ListGroup variant="flush" className="stripped">
                     {profiles &&
                       profiles
@@ -172,14 +230,14 @@ export const SharedWatchlists = () => {
                           </ListGroup.Item>
                         ))}
                   </ListGroup>
-                )}
-              </div>
-            ))
+                )} */}
+      {/* </div> */}
+      {/* ))
           ) : (
-            <p> - </p>
-          )}
-        </div>
-      </div>
+            ""
+          )} */}
+      {/* </div> */}
+      {/* </div> */}
     </Container>
   );
 };

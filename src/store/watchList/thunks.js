@@ -8,14 +8,20 @@ import {
   newListCreated,
   watchListShared,
 } from "../watchList/slice";
+import { getUserWithStoredToken, login } from "../user/thunks";
 
 export const updateSerieStatus = (serieId, sharedWatchListId, status) => {
   return async (dispatch, getState) => {
     try {
-      const { token } = getState().user;
+      console.log("patch request thunk", {
+        serieid: serieId,
+        listid: sharedWatchListId,
+        status: status,
+      });
+      const { token, profile } = getState().user;
       dispatch(appLoading());
 
-      console.log(token);
+      console.log(token, profile);
 
       const response = await axios.patch(
         `${apiUrl}/watchlists/${sharedWatchListId}/series/${serieId}`,
@@ -28,10 +34,11 @@ export const updateSerieStatus = (serieId, sharedWatchListId, status) => {
           },
         }
       );
+      console.log("response patch", response);
       dispatch(
         showMessageWithTimeout("success", false, "update successfull", 3000)
       );
-      dispatch(statusUpdated(response.data.watchList));
+      dispatch(getUserWithStoredToken());
       dispatch(appDoneLoading());
     } catch (e) {
       console.log(e.message);
@@ -39,7 +46,7 @@ export const updateSerieStatus = (serieId, sharedWatchListId, status) => {
   };
 };
 
-export const addToWatchList = (sharedWatchListId, serieId, status) => {
+export const addToWatchList = (sharedWatchListId, serie, status) => {
   return async (dispatch, getState) => {
     try {
       const { token } = getState().user;
@@ -48,8 +55,9 @@ export const addToWatchList = (sharedWatchListId, serieId, status) => {
       console.log(token);
 
       const response = await axios.post(
-        `${apiUrl}/watchlists/${sharedWatchListId}/series/${serieId}`,
+        `${apiUrl}/watchlists/${sharedWatchListId}/series`,
         {
+          serie,
           status,
         },
         {
@@ -58,11 +66,13 @@ export const addToWatchList = (sharedWatchListId, serieId, status) => {
           },
         }
       );
+
+      // console.log("response adding", response);
       dispatch(
         showMessageWithTimeout(
           "success",
           false,
-          "add to list successfull",
+          "Serie added to watchlist",
           3000
         )
       );
@@ -104,6 +114,7 @@ export const deleteSerieFromWatchlist = (sharedWatchListId, serieId) => {
 export const addNewSharedList = (name) => {
   return async (dispatch, getState) => {
     try {
+      console.log("in post list", name);
       const { token } = getState().user;
       dispatch(appLoading());
 
@@ -126,9 +137,12 @@ export const addNewSharedList = (name) => {
           3000
         )
       );
-      dispatch(newListCreated(response.data.sharedWatchList));
+      dispatch(getAllWatchlists());
+      // dispatch(getUserWithStoredToken());
+      // dispatch(newListCreated(response.data.sharedWatchList));
       dispatch(appDoneLoading());
     } catch (e) {
+      console.log(e);
       console.log(e.message);
     }
   };
@@ -169,9 +183,10 @@ export const shareWithProfile = (profile, sharedWatchListId) => {
         }
       );
       console.log("res", response);
-      dispatch(
-        watchListShared(response.data.user, response.data.sharedWatchListId)
-      );
+      // dispatch(
+      //   watchListShared(response.data.user, response.data.sharedWatchListId)
+      // );
+      dispatch(getUserWithStoredToken());
       dispatch(appDoneLoading());
     } catch (e) {
       console.log(e.message);

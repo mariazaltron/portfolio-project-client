@@ -1,10 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchTrendingSeries, saveSerie } from "../../store/serie/thunks";
-import {
-  selectTrendingSeries,
-  selectSerieById,
-} from "../../store/serie/selectors";
+import { fetchTrendingSeries } from "../../store/serie/thunks";
+import { previewSerie } from "../../store/serie/slice";
+import { selectTrendingSeries } from "../../store/serie/selectors";
 import { movieDbImgUrl } from "../../config/constants.js";
 import Carousel from "react-bootstrap/Carousel";
 import { Button } from "react-bootstrap";
@@ -14,14 +12,12 @@ import { useNavigate } from "react-router-dom";
 export const TrendingSeries = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const serieDetails = useSelector(selectSerieById);
   const trendingSerie = useSelector(selectTrendingSeries);
 
   // console.log("oieeeee", trendingSerie);
   const viewMore = (result) => {
-    dispatch(saveSerie(result)).then(() => {
-      navigate(`/series/${serieDetails.id}`);
-    });
+    dispatch(previewSerie(result));
+    navigate(`/serie/details`);
   };
 
   useEffect(() => {

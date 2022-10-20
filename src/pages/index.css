@@ -2,6 +2,8 @@
 
 .homepage-components {
    flex-direction:row,
+   /* background: rgb(235,129,228);
+   background: linear-gradient(270deg, rgba(235,129,228,1) 0%, rgba(203,44,192,1) 43%, rgba(112,48,177,1) 100%); */
 }
 
 
@@ -9,14 +11,62 @@
 
 /* MyList CSS */
 
-/* .container-mylist {
+.series-list {
    display: flex;
-   flex-direction: column;
+   align-items: center;
+   justify-content: space-between;
+   
+   
 }
+.title-serie-list h6 {
+   flex-wrap: wrap;
+   min-width: 300px;
+   max-width: 300px;
+   text-align: left;
+   color: white;
+}
+
+.title-serie-list {
+   margin-left: 5px;
+}
+
+
+.list-buttons {
+   display: flex;
+   justify-content: space-between;
+}
+
+.img-name-list {
+   display: flex;
+   align-items: center;
+}
+
+.list-group-item {
+  
+   background-color: black;
+}
+
+.mylist-container {
+   margin-top: 50px;
+}
+
 
 .navBarLists {
    background-color: brown;
    max-width: 30%;
 } */
+
+.container {
+   display: flex;
+   padding-top: 50px;
+   padding-bottom: 50px;
+   justify-content: space-evenly;
+   flex-wrap: wrap;
+}
+
+.image-list {
+   padding: 0;
+   box-shadow: 2px 2px 5px #e6a8e2;
+}
 
 

@@ -1,19 +1,16 @@
 import { useDispatch } from "react-redux";
 import Dropdown from "react-bootstrap/Dropdown";
 import { addToWatchList } from "../store/watchList/thunks";
-import { useNavigate } from "react-router-dom";
 
-export const AddListButton = ({ sharedWatchListId, serieId, text }) => {
+export const AddListButton = ({ sharedWatchListId, serie, text }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const addToList = (status) => {
-    dispatch(addToWatchList(sharedWatchListId, serieId, status));
-    navigate("/mylists");
+    dispatch(addToWatchList(sharedWatchListId, serie, status));
   };
   return (
     <div>
-      {sharedWatchListId && serieId && (
+      {sharedWatchListId && serie && (
         <Dropdown>
           <Dropdown.Toggle variant="info" id="dropdown-basic">
             {text}

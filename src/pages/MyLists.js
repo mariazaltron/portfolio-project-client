@@ -12,7 +12,9 @@ import { SharedWatchlists } from "../components/SharedWatchlists/SharedWatchlist
 import { selectActiveFilter } from "../store/user/selectors";
 import { getUserWithStoredToken } from "../store/user/thunks";
 import { deleteSerieFromWatchlist } from "../store/watchList/thunks";
-import { Button, ListGroup } from "react-bootstrap";
+import { Button, ListGroup, ListGroupItem } from "react-bootstrap";
+import { movieDbImgUrl } from "../config/constants";
+
 import "./index.css";
 
 export const MyLists = () => {
@@ -28,42 +30,68 @@ export const MyLists = () => {
     dispatch(deleteSerieFromWatchlist(watchlistsId, serieId));
   };
 
-  useEffect(() => {
-    if (myList === null) {
-      dispatch(getUserWithStoredToken());
-    }
-  }, [dispatch, myList]);
+  // useEffect(() => {
+  //   if (myList === null) {
+  //     dispatch(getUserWithStoredToken());
+  //   }
+  // }, [dispatch, myList]);
 
   return (
-    <Container fluid>
+    // <div>My lists</div>
+    <Container fluid className="mylist-container">
       <Row>
         <Col xs={4} md={2}>
           <WatchListFilters />
         </Col>
         <Col xs={12} md={8}>
           {myList && activeFilter !== "share" && (
-            <ListGroup variant="flush">
+            <ListGroup>
               {myList.series && myList.series.length > 0 ? (
-                myList.series.map((serie) => (
-                  <ListGroup.Item key={serie.id}>
-                    <div>
-                      <h6>{serie.name}</h6>
-                      <UpdateStatusButton serie={serie} />
-                      <Button
-                        variant="danger"
-                        onClick={() => deleteSerie(myList.id, serie.id)}
+                myList.series.map((serie) => {
+                  // <p>{serie.name}</p>
+                  // console.log("serie", serie);
+                  return (
+                    <ListGroup.Item>
+                      <ListGroup
+                        key={serie.id}
+                        horizontal
+                        className="series-list"
                       >
-                        Delete
-                      </Button>
-                    </div>
-                  </ListGroup.Item>
-                ))
+                        <div className="img-name-list">
+                          <ListGroup.Item className="image-list">
+                            <img
+                              src={movieDbImgUrl + serie.poster_path}
+                              alt="tv serie poster"
+                              height="100px"
+                            />
+                          </ListGroup.Item>
+                          <ListGroup.Item className="title-serie-list">
+                            <h6>{serie.name}</h6>
+                          </ListGroup.Item>
+                        </div>
+                        <div className="list-buttons">
+                          <ListGroup.Item md="auto">
+                            <UpdateStatusButton serie={serie.watchListSeries} />
+                          </ListGroup.Item>
+                          <ListGroup.Item xs="true" lg="2">
+                            <Button
+                              variant="danger"
+                              onClick={() => deleteSerie(myList.id, serie.id)}
+                            >
+                              Delete
+                            </Button>
+                          </ListGroup.Item>
+                        </div>
+                      </ListGroup>
+                    </ListGroup.Item>
+                  );
+                })
               ) : (
                 <p> - </p>
               )}
             </ListGroup>
           )}
-          {activeFilter === "share" && <SharedWatchlists />}
+          {/* {activeFilter === "share" && <SharedWatchlists />} */}
         </Col>
       </Row>
     </Container>

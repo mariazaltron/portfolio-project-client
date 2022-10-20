@@ -3,62 +3,29 @@ import Dropdown from "react-bootstrap/Dropdown";
 import { updateSerieStatus } from "../store/watchList/thunks";
 
 export const UpdateStatusButton = ({ serie }) => {
+  console.log("serie button", serie);
   const dispatch = useDispatch();
-  const showIfNotInStatus = (current, status) => current !== status;
 
-  const updateStatus = (sharedWatchListSeries, status) => {
-    dispatch(
-      updateSerieStatus(
-        sharedWatchListSeries.sharedWatchListId,
-        sharedWatchListSeries.serieId,
-        status
-      )
-    );
+  const updateStatus = (serie, status) => {
+    dispatch(updateSerieStatus(serie.serieId, serie.watchListId, status));
   };
   return (
     <div>
       {serie && (
-        <Dropdown>
+        <Dropdown size="sm">
           <Dropdown.Toggle variant="success" id="dropdown-basic">
-            {serie.sharedWatchListSeries.status}
+            {serie.status}
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            {showIfNotInStatus(
-              serie.sharedWatchListSeries.status,
-              "watching"
-            ) && (
-              <Dropdown.Item
-                onClick={() =>
-                  updateStatus(serie.sharedWatchListSeries, "watching")
-                }
-              >
-                watching
-              </Dropdown.Item>
-            )}
-            {showIfNotInStatus(
-              serie.sharedWatchListSeries.status,
-              "plan to watch"
-            ) && (
-              <Dropdown.Item
-                onClick={() =>
-                  updateStatus(serie.sharedWatchListSeries, "plan to watch")
-                }
-              >
-                plan to watch
-              </Dropdown.Item>
-            )}
-            {showIfNotInStatus(
-              serie.sharedWatchListSeries.status,
-              "completed"
-            ) && (
-              <Dropdown.Item
-                onClick={() =>
-                  updateStatus(serie.sharedWatchListSeries, "completed")
-                }
-              >
-                completed
-              </Dropdown.Item>
-            )}
+            <Dropdown.Item onClick={() => updateStatus(serie, "watching")}>
+              watching
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => updateStatus(serie, "plan to watch")}>
+              plan to watch
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => updateStatus(serie, "completed")}>
+              completed
+            </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       )}

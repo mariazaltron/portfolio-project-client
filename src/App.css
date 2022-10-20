@@ -8,7 +8,8 @@
 }
 
 body {
-  /* background: #ece0f8; */
+  background: rgb(235,129,228);
+background: linear-gradient(270deg, rgba(235,129,228,1) 0%, rgba(203,44,192,1) 43%, rgba(112,48,177,1) 100%);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -40,3 +41,5 @@ body {
     transform: rotate(360deg);
   }
 }
+
+@import "react-alice-carousel/lib/alice-carousel.css";

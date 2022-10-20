@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   series: [],
-  serieDetails: null,
+  serieDetails: null, // serie is saved in my database
+  seriePreview: null, // serie is searched from movie-api, not saved in database
   popularSeries: [],
   trendingSeries: [],
   searchSeries: [],
@@ -40,6 +41,10 @@ export const serieSlice = createSlice({
       state.loading = false;
       state.serieDetails = null;
     },
+    previewSerie: (state, action) => {
+      state.loading = false;
+      state.seriePreview = action.payload;
+    },
   },
 });
 
@@ -51,5 +56,6 @@ export const {
   seriesByTrending,
   serieByName,
   clearSerieById,
+  previewSerie,
 } = serieSlice.actions;
 export default serieSlice.reducer;

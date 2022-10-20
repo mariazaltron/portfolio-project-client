@@ -7,7 +7,7 @@ import { selectMyList, selectToken } from "../store/user/selectors";
 import { AddListButton } from "../components/AddListButton";
 import { Button, Container, Image, Col, Row } from "react-bootstrap";
 
-export const SeriesDetails = () => {
+export const SeriesDetails_ = () => {
   const serie = useSelector(selectSerieById);
   const myList = useSelector(selectMyList);
   const [serieWithWatchList, setSerieWithWatchList] = useState(undefined);

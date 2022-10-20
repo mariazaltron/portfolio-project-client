@@ -6,11 +6,12 @@ import Navbar from "react-bootstrap/Navbar";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { selectToken } from "../store/user/selectors";
-import { logOut } from "../store/user/slice";
-import { clearSerieById } from "../store/serie/slice";
-import { fetchSerieByName } from "../store/serie/thunks";
+import { selectToken } from "../../store/user/selectors";
+import { logOut } from "../../store/user/slice";
+import { clearSerieById } from "../../store/serie/slice";
+import { fetchSerieByName } from "../../store/serie/thunks";
 import { NavLink } from "react-router-dom";
+import "./index.css";
 export const NavBar = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useDispatch();
@@ -35,9 +36,9 @@ export const NavBar = () => {
   };
 
   return (
-    <Navbar bg="light" expand="lg">
-      <Container fluid>
-        <Navbar.Brand>WatchList</Navbar.Brand>
+    <Navbar expand="lg">
+      <Container fluid className="navbar">
+        <Navbar.Brand className="links">WATCHLIST</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav
@@ -45,13 +46,23 @@ export const NavBar = () => {
             style={{ maxHeight: "100px" }}
             navbarScroll
           >
-            <Nav.Link onClick={() => navigate("/")}>Home</Nav.Link>
+            <Nav.Link onClick={() => navigate("/")} className="links">
+              Home
+            </Nav.Link>
             {token && (
-              <Nav.Link onClick={() => navigate("/mylists")}>My Lists</Nav.Link>
+              <Nav.Link onClick={() => navigate("/mylists")} className="links">
+                My Lists
+              </Nav.Link>
             )}
-            {token && <Nav.Link onClick={clearUser}>Logout</Nav.Link>}
+            {token && (
+              <Nav.Link onClick={clearUser} className="links">
+                Logout
+              </Nav.Link>
+            )}
             {!token && (
-              <Nav.Link onClick={() => navigate("/login")}>Login</Nav.Link>
+              <Nav.Link onClick={() => navigate("/login")} className="links">
+                Login
+              </Nav.Link>
             )}
           </Nav>
 
@@ -64,9 +75,14 @@ export const NavBar = () => {
               aria-label="Search"
               onChange={onChangeSearch}
             />
-            <Button variant="outline-success" type="button" onClick={onSearch}>
+            <button
+              variant="dark"
+              type="button"
+              onClick={onSearch}
+              className="button"
+            >
               Search
-            </Button>
+            </button>
           </Form>
         </Navbar.Collapse>
       </Container>

@@ -9,10 +9,12 @@ import {
   MyLists,
   SearchResults,
 } from "./pages";
-import { NavBar } from "./components/NavBar";
+import { NavBar } from "./components/NavBar/NavBar";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getUserWithStoredToken } from "./store/user/thunks";
+import { MessageBox } from "./components/MessageBox";
+import SharedWatchlists from "./components/SharedWatchlists/SharedWatchlists";
 
 function App() {
   const dispatch = useDispatch();
@@ -24,14 +26,16 @@ function App() {
   return (
     <div>
       <NavBar />
+      <MessageBox />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/mylists" element={<MyLists />} />
-        <Route path="/series/:id" element={<SeriesDetailsPage />} />
+        <Route path="/serie/details" element={<SeriesDetailsPage />} />
         <Route path="/profiles" element={<ProfilePage />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
         <Route path="/search" element={<SearchResults />} />
+        <Route path="/shared" element={<SharedWatchlists />} />
       </Routes>
     </div>
   );

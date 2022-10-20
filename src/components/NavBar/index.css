@@ -1,0 +1,17 @@
+.navbar {
+    background-color: black;
+    padding: 10px ;
+}
+
+.links {
+    color: #eb81e4;
+    text-shadow: 2px 2px 5px #e6a8e2;
+}
+
+.button {
+    border-radius: 12px;
+    background-color:#eb81e4 ;
+    color: #7030b1 2px;
+    margin: 5px;
+    border: 2px solid #eb81e4 ;
+}
