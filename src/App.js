@@ -8,13 +8,13 @@ import {
   SignUp,
   MyLists,
   SearchResults,
+  SharedPage,
 } from "./pages";
 import { NavBar } from "./components/NavBar/NavBar";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getUserWithStoredToken } from "./store/user/thunks";
 import { MessageBox } from "./components/MessageBox";
-import {SharedPage} from "./pages/SharedPage";
 
 function App() {
   const dispatch = useDispatch();

@@ -26,26 +26,26 @@ export const TrendingSeries = () => {
   }, [dispatch]);
 
   return (
-    <div>
-      <h1>Trending TV Shows</h1>
-      <div className="cardSeries">
-        <Carousel fade="true">
-          {trendingSerie.map((serie) => (
-            <Carousel.Item key={serie.id}>
-              <img
-                src={movieDbImgUrl + serie.backdrop_path}
-                alt="tv serie poster"
-                height="300px"
-                onError={(e) => e.target.src = DefaultImage}
-              />
-              <Carousel.Caption>
-                <h4>{serie.name}</h4>{" "}
-                <Button onClick={() => viewMore(serie)}>More</Button>
-              </Carousel.Caption>
-            </Carousel.Item>
-          ))}
-        </Carousel>
-      </div>
+    <div className="cardSeries">
+      <h1 className="title-carousel">Trending TV Shows</h1>
+      <Carousel slide={false}>
+        {trendingSerie.map((serie) => (
+          <Carousel.Item key={serie.id}>
+            <img
+              src={movieDbImgUrl + serie.backdrop_path}
+              alt="tv serie poster"
+              height="300px"
+              onError={(e) => (e.target.src = DefaultImage)}
+            />
+            <Carousel.Caption>
+              <h4>{serie.name}</h4>{" "}
+              <Button variant="dark" onClick={() => viewMore(serie)}>
+                More
+              </Button>
+            </Carousel.Caption>
+          </Carousel.Item>
+        ))}
+      </Carousel>
     </div>
   );
 };

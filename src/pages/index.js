@@ -5,3 +5,4 @@ export * from "./SeriesDetailsPage";
 export * from "./ProfilePage";
 export * from "./MyLists";
 export * from "./SearchResults";
+export * from "./SharedPage";

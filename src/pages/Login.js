@@ -8,8 +8,6 @@ import { selectToken } from "../store/user/selectors";
 import { Input, Title, LinkWord } from "../styled";
 import { Button } from "react-bootstrap"
 
-
-
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

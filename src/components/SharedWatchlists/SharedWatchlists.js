@@ -12,7 +12,7 @@ import {
 import { selectProfiles, selectUser } from "../../store/user/selectors";
 import { Table } from "react-bootstrap";
 import { RiUser5Fill } from "react-icons/ri";
-import { Button, Form, ListGroup, Container } from "react-bootstrap";
+import { Button, Form, Container } from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import "./index.css";
 import { getUsers } from "../../store/user/thunks";

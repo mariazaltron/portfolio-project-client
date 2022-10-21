@@ -1,7 +1,7 @@
 /* HomePage CSS */
 
 .homepage-components {
-   flex-direction:row,
+   display: flex;
 }
 
 
