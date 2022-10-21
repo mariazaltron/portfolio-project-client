@@ -4,13 +4,15 @@
 }
 
 .shared-div {
-  max-width: 60%;
-  max-height: 60%;
+  display: flex;
+  justify-content: center;
+  margin: 30px;
 }
 
 .sharedlist-div {
   display:flex;
   justify-content: space-evenly;
+    flex-direction: column;
 }
 
 .button-newshared{

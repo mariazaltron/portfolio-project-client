@@ -75,15 +75,13 @@ export const SharedWatchlists = () => {
     dispatch(getAllWatchlists());
     }, [dispatch]);
   return (
-    <Container fluid>
+    <Container>
       <div>
-        <Button
-          onClick={() => setEditing(!editing)}
-          variant="dark"
-          className="button-newshared"
-        >
-          New shared list
-        </Button>
+        <div className="button-newshared">
+          <Button onClick={() => setEditing(!editing)} variant="dark">
+            New shared list
+          </Button>
+        </div>
         {editing && (
           <Form as={Col} md={{ span: 6, offset: 3 }} className="mt-5">
             <Form.Group>
@@ -97,7 +95,7 @@ export const SharedWatchlists = () => {
               />
             </Form.Group>
             <Form.Group className="mt-5">
-              <Button variant="primary" type="submit" onClick={submitForm}>
+              <Button variant="dark" type="submit" onClick={submitForm}>
                 Save shared list
               </Button>
             </Form.Group>
@@ -105,261 +103,280 @@ export const SharedWatchlists = () => {
         )}
       </div>
       <div className="shared-div">
-        <h5>Watchlists shared with me</h5>
-        {sharedWithMe && sharedWithMe.length > 0 ? (
-          sharedWithMe.map((sm) => (
-            <Accordion variant="dark" key={sm.id}>
-              <Accordion.Item eventKey="0">
-                <Accordion.Header className="acc-head">
-                  {sm.name}
-                </Accordion.Header>
-                <Accordion.Body className="acc-body">
-                  <Table striped hover variant="dark">
-                    <thead>
-                      <tr>
-                        <th>Name</th>
-                        <th>Shared with:</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>{sm.name}</td>
-                        <td>
-                          {sm.users && sm.users.length > 0 ? (
-                            sm.users.map((u) => (
-                              <div key={u.id}>
-                                <RiUser5Fill />
-                                <p>{u.name}</p>
-                              </div>
+        <div className="sharedlist-div">
+          <h5>Watchlists shared with me</h5>
+          {sharedWithMe && sharedWithMe.length > 0 ? (
+            sharedWithMe.map((sm) => (
+              <Accordion variant="dark" key={sm.id}>
+                <Accordion.Item eventKey="0">
+                  <Accordion.Header className="acc-head">
+                    {sm.name}
+                  </Accordion.Header>
+                  <Accordion.Body className="acc-body">
+                    <Table striped hover variant="dark">
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Shared with:</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>{sm.name}</td>
+                          <td>
+                            {sm.users && sm.users.length > 0 ? (
+                              sm.users.map((u) => (
+                                <div key={u.id}>
+                                  <RiUser5Fill />
+                                  <p>{u.name}</p>
+                                </div>
+                              ))
+                            ) : (
+                              <p> Not shared.</p>
+                            )}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </Table>
+                    <ListGroup variant="flush">
+                      {sm.series ? (
+                        sm.series.map((s) => (
+                          <ListGroup.Item
+                            key={s.id}
+                            className="list-group-item-color"
+                          >
+                            {s.name}
+                          </ListGroup.Item>
+                        ))
+                      ) : (
+                        <p> No series in this list.</p>
+                      )}
+                    </ListGroup>
+                    <Button
+                      size="xs"
+                      onClick={() => startAdding(sm.id)}
+                      className="button-space-between"
+                    >
+                      <IoSearchCircle /> Search for series
+                    </Button>
+                    {adding && currentAdding && currentAdding === sm.id && (
+                      <div>
+                        <Form className="d-flex">
+                          <Form.Control
+                            value={searchTerm}
+                            type="search"
+                            placeholder="Search"
+                            className="me-2"
+                            aria-label="Search"
+                            onChange={onChangeSearchTerm}
+                          />
+                          <Button
+                            variant="dark"
+                            type="button"
+                            onClick={onSearch}
+                            className="button"
+                          >
+                            Search
+                          </Button>
+                        </Form>
+                        <ListGroup variant="flush" className="stripped">
+                          {searchedSeries ? (
+                            searchedSeries.map((s) => (
+                              <ListGroup.Item
+                                key={s.id}
+                                className="list-group-item-color"
+                              >
+                                <Row>
+                                  <Col>{s.name}</Col>
+                                  <Col>
+                                    <Button
+                                      size="xs"
+                                      variant="success"
+                                      onClick={() => addSerieToList(s, sm.id)}
+                                    >
+                                      Add
+                                    </Button>
+                                  </Col>
+                                </Row>
+                              </ListGroup.Item>
                             ))
                           ) : (
-                            <p> Not shared.</p>
-                          )}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </Table>
-                  <ListGroup variant="flush">
-                    {sm.series ? (
-                      sm.series.map((s) => (
-                        <ListGroup.Item
-                          key={s.id}
-                          className="list-group-item-color"
-                        >
-                          {s.name}
-                        </ListGroup.Item>
-                      ))
-                    ) : (
-                      <p> No series in this list.</p>
-                    )}
-                  </ListGroup>
-                  <Button size="xs" onClick={() => startAdding(sm.id)}>
-                    <IoSearchCircle /> Search for series
-                  </Button>
-                  {adding && currentAdding && currentAdding === sm.id && (
-                    <div>
-                      <Form className="d-flex">
-                        <Form.Control
-                          value={searchTerm}
-                          type="search"
-                          placeholder="Search"
-                          className="me-2"
-                          aria-label="Search"
-                          onChange={onChangeSearchTerm}
-                        />
-                        <Button
-                          variant="dark"
-                          type="button"
-                          onClick={onSearch}
-                          className="button"
-                        >
-                          Search
-                        </Button>
-                      </Form>
-                      <ListGroup variant="flush" className="stripped">
-                        {searchedSeries ? (
-                          searchedSeries.map((s) => (
-                            <ListGroup.Item
-                              key={s.id}
-                              className="list-group-item-color"
-                            >
-                              <Row>
-                                <Col>{s.name}</Col>
-                                <Col>
-                                  <Button
-                                    size="xs"
-                                    variant="success"
-                                    onClick={() => addSerieToList(s, sm.id)}
-                                  >
-                                    Add
-                                  </Button>
-                                </Col>
-                              </Row>
+                            <ListGroup.Item className="list-group-item-color">
+                              No series found.
                             </ListGroup.Item>
-                          ))
-                        ) : (
-                          <ListGroup.Item className="list-group-item-color">
-                            No series found.
-                          </ListGroup.Item>
-                        )}
-                      </ListGroup>
-                    </div>
-                  )}
-                </Accordion.Body>
-              </Accordion.Item>
-            </Accordion>
-          ))
-        ) : (
-          <p> No lists. </p>
-        )}
+                          )}
+                        </ListGroup>
+                      </div>
+                    )}
+                  </Accordion.Body>
+                </Accordion.Item>
+              </Accordion>
+            ))
+          ) : (
+            <p> No lists. </p>
+          )}
+        </div>
       </div>
       <div className="shared-div">
-        <h5>Watchlists I shared with others</h5>
-        {sharedWithOthers && sharedWithOthers.length > 0 ? (
-          sharedWithOthers.map((so) => (
-            <Accordion variant="dark" key={so.id}>
-              <Accordion.Item eventKey="0">
-                <Accordion.Header className="acc-head">
-                  {so.name}
-                </Accordion.Header>
-                <Accordion.Body className="acc-body">
-                  <Table striped hover variant="dark">
-                    <thead>
-                      <tr>
-                        <th>Name</th>
-                        <th>Shared with:</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>{so.name}</td>
-                        <td>
-                          {so.users && so.users.length > 0 ? (
-                            so.users.map((u) => (
-                              <div key={u.id}>
-                                <RiUser5Fill />
-                                <p>{u.name}</p>
-                              </div>
-                            ))
-                          ) : (
-                            <p> Not shared.</p>
-                          )}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </Table>
-                  <ListGroup variant="flush">
-                    {so.series ? (
-                      so.series.map((s) => (
-                        <ListGroup.Item
-                          key={s.id}
-                          className="list-group-item-color"
-                        >
-                          {s.name}
-                        </ListGroup.Item>
-                      ))
-                    ) : (
-                      <p> No series in this list.</p>
-                    )}
-                  </ListGroup>
-                  <Button onClick={() => startSharing(so.id)}>
-                    <IoMdShare /> Share
-                  </Button>
-                  {sharing && currentSharing && currentSharing === so.id && (
-                    <ListGroup variant="flush" className="stripped">
-                      {profiles &&
-                        profiles
-                          .filter((p) => p.id !== so.owner)
-                          .filter(
-                            (p) =>
-                              so.users.filter((u) => u.id === p.id).length <= 0
-                          )
-                          .map((p) => (
-                            <ListGroup.Item
-                              key={p.id}
-                              className="list-group-item-color"
-                            >
-                              <RiUser5Fill />
-                              &nbsp;{p.name}&nbsp;
-                              <Button onClick={() => doShareWith(p, so.id)}>
-                                Add
-                              </Button>
-                            </ListGroup.Item>
-                          ))}
-                      {!profiles ||
-                        (profiles
-                          .filter((p) => p.id !== so.owner)
-                          .filter(
-                            (p) =>
-                              so.users.filter((u) => u.id === p.id).length <= 0
-                          ).length <= 0 && (
-                          <ListGroup.Item className="list-group-item-color">
-                            {" "}
-                            No users available for sharing.
+        <div className="sharedlist-div">
+          <h5>Watchlists I shared with others</h5>
+          {sharedWithOthers && sharedWithOthers.length > 0 ? (
+            sharedWithOthers.map((so) => (
+              <Accordion variant="dark" key={so.id}>
+                <Accordion.Item eventKey="0">
+                  <Accordion.Header className="acc-head">
+                    {so.name}
+                  </Accordion.Header>
+                  <Accordion.Body className="acc-body">
+                    <Table striped hover variant="dark">
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Shared with:</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>{so.name}</td>
+                          <td>
+                            {so.users && so.users.length > 0 ? (
+                              so.users.map((u) => (
+                                <div key={u.id}>
+                                  <RiUser5Fill />
+                                  <p>{u.name}</p>
+                                </div>
+                              ))
+                            ) : (
+                              <p> Not shared.</p>
+                            )}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </Table>
+                    <ListGroup variant="flush">
+                      {so.series ? (
+                        so.series.map((s) => (
+                          <ListGroup.Item
+                            key={s.id}
+                            className="list-group-item-color"
+                          >
+                            {s.name}
                           </ListGroup.Item>
-                        ))}
-                      ))
+                        ))
+                      ) : (
+                        <p> No series in this list.</p>
+                      )}
                     </ListGroup>
-                  )}
-                  <Button size="xs" onClick={() => startAdding(so.id)}>
-                    <IoSearchCircle /> Search for series
-                  </Button>
-                  {adding && currentAdding && currentAdding === so.id && (
-                    <div>
-                      <Form className="d-flex">
-                        <Form.Control
-                          value={searchTerm}
-                          type="search"
-                          placeholder="Search"
-                          className="me-2"
-                          aria-label="Search"
-                          onChange={onChangeSearchTerm}
-                        />
-                        <Button
-                          variant="dark"
-                          type="button"
-                          onClick={onSearch}
-                          className="button"
-                        >
-                          Search
-                        </Button>
-                      </Form>
-                      <ListGroup variant="flush" className="stripped">
-                        {searchedSeries ? (
-                          searchedSeries.map((s) => (
-                            <ListGroup.Item
-                              key={s.id}
-                              className="list-group-item-color"
-                            >
-                              <Row>
-                                <Col>{s.name}</Col>
-                                <Col>
-                                  <Button
-                                    size="xs"
-                                    variant="success"
-                                    onClick={() => addSerieToList(s, so.id)}
-                                  >
+                    <div className="buttons-inside-accordion">
+                      <Button
+                        onClick={() => startSharing(so.id)}
+                        className="button-space-between"
+                      >
+                        <IoMdShare /> Share
+                      </Button>
+                      {sharing && currentSharing && currentSharing === so.id && (
+                        <ListGroup variant="flush" className="stripped">
+                          {profiles &&
+                            profiles
+                              .filter((p) => p.id !== so.owner)
+                              .filter(
+                                (p) =>
+                                  so.users.filter((u) => u.id === p.id)
+                                    .length <= 0
+                              )
+                              .map((p) => (
+                                <ListGroup.Item
+                                  key={p.id}
+                                  className="list-group-item-color"
+                                >
+                                  <RiUser5Fill />
+                                  &nbsp;{p.name}&nbsp;
+                                  <Button onClick={() => doShareWith(p, so.id)}>
                                     Add
                                   </Button>
-                                </Col>
-                              </Row>
-                            </ListGroup.Item>
+                                </ListGroup.Item>
+                              ))}
+                          {!profiles ||
+                            (profiles
+                              .filter((p) => p.id !== so.owner)
+                              .filter(
+                                (p) =>
+                                  so.users.filter((u) => u.id === p.id)
+                                    .length <= 0
+                              ).length <= 0 && (
+                              <ListGroup.Item className="list-group-item-color">
+                                {" "}
+                                No users available for sharing.
+                              </ListGroup.Item>
+                            ))}
                           ))
-                        ) : (
-                          <ListGroup.Item className="list-group-item-color">
-                            No series found.
-                          </ListGroup.Item>
-                        )}
-                      </ListGroup>
+                        </ListGroup>
+                      )}
+                      <Button
+                        size="xs"
+                        onClick={() => startAdding(so.id)}
+                        className="button-space-between"
+                      >
+                        <IoSearchCircle /> Search for series
+                      </Button>
                     </div>
-                  )}
-                </Accordion.Body>
-              </Accordion.Item>
-            </Accordion>
-          ))
-        ) : (
-          <p> No lists. </p>
-        )}
+                    {adding && currentAdding && currentAdding === so.id && (
+                      <div>
+                        <Form className="d-flex">
+                          <Form.Control
+                            value={searchTerm}
+                            type="search"
+                            placeholder="Search"
+                            className="me-2"
+                            aria-label="Search"
+                            onChange={onChangeSearchTerm}
+                          />
+                          <Button
+                            variant="dark"
+                            type="button"
+                            onClick={onSearch}
+                            className="button"
+                          >
+                            Search
+                          </Button>
+                        </Form>
+                        <ListGroup variant="flush" className="stripped">
+                          {searchedSeries ? (
+                            searchedSeries.map((s) => (
+                              <ListGroup.Item
+                                key={s.id}
+                                className="list-group-item-color"
+                              >
+                                <Row>
+                                  <Col>{s.name}</Col>
+                                  <Col>
+                                    <Button
+                                      size="xs"
+                                      variant="success"
+                                      onClick={() => addSerieToList(s, so.id)}
+                                    >
+                                      Add
+                                    </Button>
+                                  </Col>
+                                </Row>
+                              </ListGroup.Item>
+                            ))
+                          ) : (
+                            <ListGroup.Item className="list-group-item-color">
+                              No series found.
+                            </ListGroup.Item>
+                          )}
+                        </ListGroup>
+                      </div>
+                    )}
+                  </Accordion.Body>
+                </Accordion.Item>
+              </Accordion>
+            ))
+          ) : (
+            <p> No lists. </p>
+          )}
+        </div>
       </div>
     </Container>
   );
