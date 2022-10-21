@@ -23,15 +23,7 @@ export const watchListSlice = createSlice({
     serieAddedToSomeList: (state, action) => {
       state.loading = false;
       const watchListUpdated = action.payload.watchlist;
-      const user = action.payload.user;
-      console.log("shared with others user",  user);
-
-      if(watchListUpdated.owner === user.id) {
-        state.sharedWithOthers = state.sharedWithOthers.map(so => { return (so.id === watchListUpdated.id) ? watchListUpdated : so })
-        console.log("shared with others",  state.sharedWithOthers);
-      } else {
-        state.sharedWithMe = state.sharedWithMe.map(sm => { return (sm.id === watchListUpdated.id) ? watchListUpdated : sm })
-      }
+      state.sharedWithMe = state.sharedWithMe.map(sm => { return (sm.id === watchListUpdated.id) ? watchListUpdated : sm })
     },
     watchListShared: (state, action) => {
       state.loading = false;

@@ -176,9 +176,7 @@ export const addSerieToMyList = (serie, watchListId) => async (dispatch, getStat
 
 export const addSerieToSomeList = (serie, watchListId) => async (dispatch, getState) => {
   try {
-    const user = getState().user
-    const { token } = user;
-
+    const { token } = getState().user;
     dispatch(appLoading());
     const serieInTmdb = await axios.get(`${movieDbApiUrl}/tv/${serie.id}`, {
       params: { api_key: movieDbApiKey },
@@ -189,12 +187,17 @@ export const addSerieToSomeList = (serie, watchListId) => async (dispatch, getSt
       },
     });
 
-    const watchlist = response.data;
-    console.log("response from backend", response.data);
-    dispatch(
-      showMessageWithTimeout("success", false, "Serie added successfully", 3000)
+      const watchlist = response.data;
+      console.log("response from backend", response.data);
+      dispatch(
+        showMessageWithTimeout(
+          "success",
+          false,
+          "Serie added successfully",
+          3000
+        )
       );
-    dispatch(serieAddedToSomeList({watchlist: watchlist, serie: serie, user: user.profile}));
+    dispatch(serieAddedToSomeList({watchlist: watchlist, serie: serie}));
     //    dispatch(previewSerie(serie))
 
   } catch (e) {
