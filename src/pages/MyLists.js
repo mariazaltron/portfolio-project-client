@@ -27,12 +27,12 @@ export const MyLists = () => {
 
   const getSeriesByFilter = () => {
     if(!myList && !myList.series) return [];
-    return myList.series.filter(s => activeFilter === "all" || s.watchListSeries.status === activeFilter)
+    return myList.series.filter(s => activeFilter === "all" || s.watchListSeries.status === activeFilter).sort()
   }
 
   useEffect(() => {
     setSeries(getSeriesByFilter())
-  }, [activeFilter]);
+  }, [activeFilter, myList]);
 
   return (
     <Container fluid className="mylist-container">

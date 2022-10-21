@@ -20,6 +20,11 @@ export const watchListSlice = createSlice({
       state.sharedWithMe = action.payload.withMe;
       console.log("shared with me", action.payload.withMe);
     },
+    serieAddedToSomeList: (state, action) => {
+      state.loading = false;
+      const watchListUpdated = action.payload.watchlist;
+      state.sharedWithMe = state.sharedWithMe.map(sm => { return (sm.id === watchListUpdated.id) ? watchListUpdated : sm })
+    },
     watchListShared: (state, action) => {
       state.loading = false;
 
@@ -39,7 +44,7 @@ export const watchListSlice = createSlice({
   },
 });
 
-export const { newListCreated, allWatchlistsLoaded, watchListShared } =
+export const { newListCreated, allWatchlistsLoaded, watchListShared, serieAddedToSomeList } =
   watchListSlice.actions;
 
 export default watchListSlice.reducer;

@@ -4,7 +4,7 @@ import { serieAddedToMyList, serieDeleted } from "../user/slice";
 import { appLoading, appDoneLoading } from "../appState/slice";
 import { showMessageWithTimeout } from "../appState/thunks";
 import {
-  allWatchlistsLoaded,
+  allWatchlistsLoaded, serieAddedToSomeList,
 } from "./slice";
 import { getUserWithStoredToken } from "../user/thunks";
 import { movieDbApiUrl, movieDbApiKey } from "../../config/constants";
@@ -168,6 +168,32 @@ export const addSerieToMyList = (serie, watchListId) => async (dispatch, getStat
       );
     dispatch(serieAddedToMyList({watchlist: watchlist, serie: serie}));
 //    dispatch(previewSerie(serie))
+
+  } catch (e) {
+    console.log(e.message);
+  }
+};
+
+export const addSerieToSomeList = (serie, watchListId) => async (dispatch, getState) => {
+  try {
+    const { token } = getState().user;
+    dispatch(appLoading());
+    const serieInTmdb = await axios.get(`${movieDbApiUrl}/tv/${serie.id}`, {
+      params: { api_key: movieDbApiKey },
+    });
+    const response = await axios.post(`${apiUrl}/watchlists/${watchListId}/series`, serieInTmdb.data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const watchlist = response.data;
+    console.log("response from backend", response.data);
+    dispatch(
+      showMessageWithTimeout("success", false, "Serie added successfully", 3000)
+      );
+    dispatch(serieAddedToSomeList({watchlist: watchlist, serie: serie}));
+    //    dispatch(previewSerie(serie))
 
   } catch (e) {
     console.log(e.message);

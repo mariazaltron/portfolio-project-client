@@ -2,30 +2,37 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getAllWatchlists,
   addNewSharedList,
-  shareWithProfile,
+  shareWithProfile, addSerieToSomeList,
 } from "../../store/watchList/thunks";
 import { useEffect, useState } from "react";
 import {
   selectSharedWithOthers,
   selectSharedWithMe,
 } from "../../store/watchList/selectors";
-import { selectProfiles, selectUser } from "../../store/user/selectors";
-import {Accordion, Table} from "react-bootstrap";
+import { selectProfiles } from "../../store/user/selectors";
+import {Accordion, Row, Table} from "react-bootstrap";
 import { RiUser5Fill } from "react-icons/ri";
 import { Button, Form, Container, ListGroup } from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import "./index.css";
 import { getUsers } from "../../store/user/thunks";
+import {fetchSerieByName} from "../../store/serie/thunks";
+import {selectSearchSeries} from "../../store/serie/selectors";
+import {IoMdShare} from "react-icons/io";
+import {IoSearchCircle} from "react-icons/io5";
 
 export const SharedWatchlists = () => {
   const dispatch = useDispatch();
-  const me = useSelector(selectUser);
   const profiles = useSelector(selectProfiles);
   const sharedWithOthers = useSelector(selectSharedWithOthers);
   const sharedWithMe = useSelector(selectSharedWithMe);
+  const searchedSeries = useSelector(selectSearchSeries);
   const [editing, setEditing] = useState(false);
   const [sharing, setSharing] = useState(false);
+  const [adding, setAdding] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const [currentSharing, setCurrentSharing] = useState(null);
+  const [currentAdding, setCurrentAdding] = useState(null);
   const [name, setName] = useState("");
 
   const submitForm = (event) => {
@@ -41,14 +48,32 @@ export const SharedWatchlists = () => {
     setSharing(!sharing);
   };
 
+  const startAdding = (listId) => {
+    setCurrentAdding(listId);
+    setAdding(!adding);
+  };
+
   const doShareWith = (profile, sharedWatchListId) => {
     dispatch(shareWithProfile(profile, sharedWatchListId));
     setSharing(false);
   };
 
+  const onChangeSearchTerm = (e) => {
+    e.preventDefault();
+    setSearchTerm(e.target.value);
+  }
+
+  const onSearch = () => {
+    dispatch(fetchSerieByName(searchTerm))
+  }
+
+  const addSerieToList = (serie, listId) => {
+    dispatch(addSerieToSomeList(serie, listId))
+  }
+
   useEffect(() => {
     dispatch(getAllWatchlists());
-  }, [dispatch]);
+    }, [dispatch]);
   return (
     <Container fluid>
       <div>
@@ -113,6 +138,50 @@ export const SharedWatchlists = () => {
                         </ListGroup.Item>
                         ))) : (<p> No series in this list.</p>)}
                     </ListGroup>
+                    <Button size="xs" onClick={() => startAdding(sm.id)}><IoSearchCircle /> Search for series</Button>
+                    {adding && currentAdding && currentAdding === sm.id && (
+                      <div>
+                        <Form className="d-flex">
+                          <Form.Control
+                            value={searchTerm}
+                            type="search"
+                            placeholder="Search"
+                            className="me-2"
+                            aria-label="Search"
+                            onChange={onChangeSearchTerm}
+                          />
+                          <Button
+                            variant="dark"
+                            type="button"
+                            onClick={onSearch}
+                            className="button"
+                            >
+                            Search
+                          </Button>
+                        </Form>
+                        <ListGroup variant="flush" className="stripped">
+                          {searchedSeries ? (
+                            searchedSeries.map(s =>
+                            <ListGroup.Item key={s.id} className="list-group-item-color">
+                              <Row>
+                                <Col>
+                                  {s.name}
+                                </Col>
+                                <Col>
+                                  <Button size="xs" variant="success" onClick={() => addSerieToList(s, sm.id)}>
+                                    Add
+                                  </Button>
+                                </Col>
+                              </Row>
+                            </ListGroup.Item>
+                            )): (
+                              <ListGroup.Item className="list-group-item-color">
+                                No series found.
+                              </ListGroup.Item>
+                            )}
+                        </ListGroup>
+                      </div>
+                      )}
                   </Accordion.Body>
                 </Accordion.Item>
               </Accordion>
@@ -158,7 +227,7 @@ export const SharedWatchlists = () => {
                         </ListGroup.Item>
                         ))) : (<p> No series in this list.</p>)}
                     </ListGroup>
-                    <Button onClick={() => startSharing(so.id)}>Share</Button>
+                    <Button onClick={() => startSharing(so.id)}><IoMdShare /> Share</Button>
                     {sharing && currentSharing && currentSharing === so.id && (
                       <ListGroup variant="flush" className="stripped">
                         {profiles && profiles
