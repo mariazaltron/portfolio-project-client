@@ -4,7 +4,7 @@ import { serieAddedToMyList, serieDeleted } from "../user/slice";
 import { appLoading, appDoneLoading } from "../appState/slice";
 import { showMessageWithTimeout } from "../appState/thunks";
 import {
-  allWatchlistsLoaded, serieAddedToSomeList,
+  allWatchlistsLoaded, serieAddedToSomeList, watchListShared,
 } from "./slice";
 import { getUserWithStoredToken } from "../user/thunks";
 import { movieDbApiUrl, movieDbApiKey } from "../../config/constants";
@@ -176,7 +176,9 @@ export const addSerieToMyList = (serie, watchListId) => async (dispatch, getStat
 
 export const addSerieToSomeList = (serie, watchListId) => async (dispatch, getState) => {
   try {
-    const { token } = getState().user;
+    const user = getState().user
+    const { token } = user;
+
     dispatch(appLoading());
     const serieInTmdb = await axios.get(`${movieDbApiUrl}/tv/${serie.id}`, {
       params: { api_key: movieDbApiKey },
@@ -192,7 +194,7 @@ export const addSerieToSomeList = (serie, watchListId) => async (dispatch, getSt
     dispatch(
       showMessageWithTimeout("success", false, "Serie added successfully", 3000)
       );
-    dispatch(serieAddedToSomeList({watchlist: watchlist, serie: serie}));
+    dispatch(serieAddedToSomeList({watchlist: watchlist, serie: serie, user: user.profile}));
     //    dispatch(previewSerie(serie))
 
   } catch (e) {
@@ -239,6 +241,7 @@ export const shareWithProfile = (profile, sharedWatchListId) => {
       //   watchListShared(response.data.user, response.data.sharedWatchListId)
       // );
       dispatch(getUserWithStoredToken());
+      dispatch(watchListShared({watchlistId: response.sharedWatchList, user: response.user}));
       dispatch(appDoneLoading());
     } catch (e) {
       console.log(e.message);

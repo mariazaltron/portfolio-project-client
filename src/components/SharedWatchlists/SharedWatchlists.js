@@ -243,6 +243,50 @@ export const SharedWatchlists = () => {
                           </ListGroup.Item>
                           ))}
                       </ListGroup>)}
+                      <Button size="xs" onClick={() => startAdding(so.id)}><IoSearchCircle /> Search for series</Button>
+                      {adding && currentAdding && currentAdding === so.id && (
+                        <div>
+                          <Form className="d-flex">
+                            <Form.Control
+                              value={searchTerm}
+                              type="search"
+                              placeholder="Search"
+                              className="me-2"
+                              aria-label="Search"
+                              onChange={onChangeSearchTerm}
+                            />
+                            <Button
+                              variant="dark"
+                              type="button"
+                              onClick={onSearch}
+                              className="button"
+                              >
+                              Search
+                            </Button>
+                          </Form>
+                          <ListGroup variant="flush" className="stripped">
+                            {searchedSeries ? (
+                              searchedSeries.map(s =>
+                              <ListGroup.Item key={s.id} className="list-group-item-color">
+                                <Row>
+                                  <Col>
+                                    {s.name}
+                                  </Col>
+                                  <Col>
+                                    <Button size="xs" variant="success" onClick={() => addSerieToList(s, so.id)}>
+                                      Add
+                                    </Button>
+                                  </Col>
+                                </Row>
+                              </ListGroup.Item>
+                              )): (
+                                <ListGroup.Item className="list-group-item-color">
+                                  No series found.
+                                </ListGroup.Item>
+                                )}
+                          </ListGroup>
+                        </div>
+                        )}
                   </Accordion.Body>
                 </Accordion.Item>
               </Accordion>
