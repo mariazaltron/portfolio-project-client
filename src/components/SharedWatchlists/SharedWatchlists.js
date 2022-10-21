@@ -10,9 +10,9 @@ import {
   selectSharedWithMe,
 } from "../../store/watchList/selectors";
 import { selectProfiles, selectUser } from "../../store/user/selectors";
-import { Table } from "react-bootstrap";
+import {Accordion, Table} from "react-bootstrap";
 import { RiUser5Fill } from "react-icons/ri";
-import { Button, Form, Container } from "react-bootstrap";
+import { Button, Form, Container, ListGroup } from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import "./index.css";
 import { getUsers } from "../../store/user/thunks";
@@ -73,98 +73,112 @@ export const SharedWatchlists = () => {
           </Form>
         )}
       </div>
-      <div>
+      <div className="shared-div">
         <h5>Watchlists shared with me</h5>
-        {sharedWithMe && sharedWithMe.length > 0 ? (
-          sharedWithMe.map((sm) => (
-            <div key={sm.id}>
-              <Table striped bordered hover>
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Shared with:</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>{sm.name}</td>
-                    <td>
-                      {sm.users && sm.users.length > 0 ? (
-                        sm.users.map((u) => (
-                          <div key={u.id}>
+          {sharedWithMe && sharedWithMe.length > 0 ? (
+            sharedWithMe.map((sm) => (
+              <Accordion variant="dark" key={sm.id}>
+                <Accordion.Item eventKey="0">
+                  <Accordion.Header className="acc-head">{sm.name}</Accordion.Header>
+                  <Accordion.Body className="acc-body">
+                    <Table striped hover variant="dark">
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Shared with:</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>{sm.name}</td>
+                          <td>
+                            {sm.users && sm.users.length > 0 ? (
+                              sm.users.map((u) => (
+                                <div key={u.id}>
+                                  <RiUser5Fill />
+                                  <p>{u.name}</p>
+                                </div>
+                                ))
+                                ) : (
+                                  <p> Not shared.</p>
+                                  )}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </Table>
+                    <ListGroup variant="flush">
+                      {sm.series ? (sm.series.map((s) => (
+                        <ListGroup.Item key={s.id} className="list-group-item-color">
+                          {s.name}
+                        </ListGroup.Item>
+                        ))) : (<p> No series in this list.</p>)}
+                    </ListGroup>
+                  </Accordion.Body>
+                </Accordion.Item>
+              </Accordion>
+              ))) : <p> No lists. </p> }
+      </div>
+       <div className="shared-div">
+        <h5>Watchlists I shared with others</h5>
+         {sharedWithOthers && sharedWithOthers.length > 0 ? (
+           sharedWithOthers.map((so) => (
+              <Accordion variant="dark" key={so.id}>
+                <Accordion.Item eventKey="0">
+                  <Accordion.Header className="acc-head">{so.name}</Accordion.Header>
+                  <Accordion.Body className="acc-body">
+                    <Table striped hover variant="dark">
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Shared with:</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>{so.name}</td>
+                          <td>
+                            {so.users && so.users.length > 0 ? (
+                              so.users.map((u) => (
+                                <div key={u.id}>
+                                  <RiUser5Fill />
+                                  <p>{u.name}</p>
+                                </div>
+                                ))
+                                ) : (
+                                  <p> Not shared.</p>
+                                  )}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </Table>
+                    <ListGroup variant="flush">
+                      {so.series ? (so.series.map((s) => (
+                        <ListGroup.Item key={s.id} className="list-group-item-color">
+                          {s.name}
+                        </ListGroup.Item>
+                        ))) : (<p> No series in this list.</p>)}
+                    </ListGroup>
+                    <Button onClick={() => startSharing(so.id)}>Share</Button>
+                    {sharing && currentSharing && currentSharing === so.id && (
+                      <ListGroup variant="flush" className="stripped">
+                        {profiles && profiles
+                        .filter((p) => p.id !== so.owner)
+                        .filter((p) => so.users.filter(u => u.id === p.id).length <= 0)
+                        .map((p) => (
+                          <ListGroup.Item key={p.id} className="list-group-item-color">
                             <RiUser5Fill />
-                            <p>{u.name}</p>
-                          </div>
-                        ))
-                      ) : (
-                        <p>-</p>
-                      )}
-                    </td>
-                  </tr>
-                </tbody>
-              </Table>
-              <div>
-                <p></p>
-                <span>
-                  <p>Shared with:&nbsp;</p>
-                </span>
-              </div>
-              <Table striped hover size="sm">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {sm.series.map((s) => (
-                    <tr key={s.id}>
-                      <td>{s.name}</td>
-                      <td>{s.watchListSeries.status}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-            </div>
-          ))
-        ) : (
-          <p> - </p>
-        )}
-      </div>
-      <div>
-        <h5>Watchlists I've shared with others</h5>
-        {sharedWithOthers && sharedWithOthers.length > 0
-          ? sharedWithOthers.map((so) => (
-            <div key={so.id}>
-                <Table striped bordered hover>
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Shared with:</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>{so.name}</td>
-                      <td>
-                        {so.users && so.users.length > 0 ? (
-                          so.users.map((u) => (
-                            <div key={u.id}>
-                              <RiUser5Fill />
-                              <p>{u.name}</p>
-                            </div>
-                          ))
-                        ) : (
-                          <p>-</p>
-                        )}
-                      </td>
-                    </tr>
-                  </tbody>
-                </Table>{" "}
-              </div>
-            ))
-          : null}
-      </div>
+                            &nbsp;{p.name}&nbsp;
+                            <Button onClick={() => doShareWith(p, so.id)}>
+                              Add
+                            </Button>
+                          </ListGroup.Item>
+                          ))}
+                      </ListGroup>)}
+                  </Accordion.Body>
+                </Accordion.Item>
+              </Accordion>
+              ))) : <p> No lists. </p> }
+       </div>
 
       {/* <div>
         <div className="panel">

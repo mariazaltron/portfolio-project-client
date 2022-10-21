@@ -4,9 +4,6 @@
    display: flex;
 }
 
-
-
-
 /* MyList CSS */
 .button-mylist {
    box-shadow: 2px 2px 5px white;
@@ -16,8 +13,8 @@
    display: flex;
    align-items: center;
    justify-content: space-between;
-   
-   
+
+
 }
 .title-serie-list h6 {
    flex-wrap: wrap;
@@ -43,8 +40,26 @@
 }
 
 .list-group-item {
-  
    background-color: #212529;
+}
+
+.acc-head {
+/*  background-color: #212529;*/
+  color: #ffffff;
+}
+
+.acc-body {
+  background-color: #212529;
+  color: #ffffff;
+}
+
+
+.shared-div {
+  color: #ffffff;
+}
+
+.list-group-item-color {
+  color: #ffffff;
 }
 
 .mylist-container {
@@ -55,7 +70,7 @@
 .navBarLists {
    background-color: brown;
    max-width: 30%;
-} */
+}
 
 .container-searchresults {
    display: flex;
